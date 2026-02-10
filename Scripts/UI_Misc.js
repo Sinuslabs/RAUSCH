@@ -41,6 +41,8 @@ MadeBy_btn.setLocalLookAndFeel(laf);
 inline function onMadeByBtn(component, value) {
 	if (value) {
 		Router.goTo("About");
+	} else {
+		Router.goTo("Main");
 	}
 }
 

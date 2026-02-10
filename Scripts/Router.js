@@ -27,13 +27,18 @@ namespace Router {
 	goTo(currentRoute);
 
 	for (route in routes) {
+		Console.print(route.getId());
+	
 		route.setPaintRoutine(function (g) {
 		});
 	}
 
-	Engine.loadImageIntoPool('filename');
+	//Engine.loadImageIntoPool('filename');
 	
 	inline function goTo(goToRoute) {
+		
+		Console.print(goToRoute);
+	
 		
 		local toRoute = goToRoute;
 

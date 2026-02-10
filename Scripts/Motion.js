@@ -38,10 +38,45 @@ namespace Motion {
 		segmentGap: 2,
 		padding: 4,
 		segmentAlpha: 0.12,
-		activeAlpha: 1.0
+		activeAlpha: 1.0,
+		pulseFalloff: 3,
+		pulseMinAlpha: 0.15,
+		pulseMaxAlpha: 0.9
 	};
 
 	var currentValue = 4;
+
+	// Animation state
+	var animationStep = -1;
+	// TODO: Toggle animation on note-on only, for now always active
+	var animationActive = true;
+
+	const var animTimer = Engine.createTimerObject();
+
+	inline function startAnimation()
+	{
+		animationStep = 0;
+		local ms = Engine.getMilliSecondsForTempo(currentValue);
+		local stepMs = ms / CONFIG.numSegments;
+		animTimer.startTimer(Math.max(20, Math.round(stepMs)));
+	}
+
+	inline function stopAnimation()
+	{
+		animTimer.stopTimer();
+		animationStep = -1;
+		Tempo_pnl.repaint();
+	}
+
+	animTimer.setTimerCallback(function()
+	{
+		animationStep++;
+
+		if (animationStep >= CONFIG.numSegments)
+			animationStep = 0;
+
+		Tempo_pnl.repaint();
+	});
 
 	inline function getSegmentRatio(index)
 	{
@@ -75,11 +110,28 @@ namespace Motion {
 
 		var colour = Theme.THEME.Colors.Display.on_display;
 
+		var mix = Gater.getAttribute(Gater.Mix);
+		var mixNorm = mix / 100.0;
+
 		for (i = 0; i < CONFIG.numSegments; i++)
 		{
 			var segW = (getSegmentRatio(i) / totalRatio) * availableW;
+			var alpha = CONFIG.segmentAlpha;
 
-			g.setColour(Colours.withAlpha(colour, CONFIG.segmentAlpha));
+			if (animationStep >= 0 && i <= currentValue)
+			{
+				var dist = animationStep - i;
+
+				if (dist >= 0 && dist <= CONFIG.pulseFalloff)
+				{
+					var t = 1.0 - (dist / CONFIG.pulseFalloff);
+					alpha = CONFIG.pulseMinAlpha + t * (CONFIG.pulseMaxAlpha - CONFIG.pulseMinAlpha);
+					alpha = alpha * mixNorm;
+					alpha = Math.max(CONFIG.segmentAlpha, alpha);
+				}
+			}
+
+			g.setColour(Colours.withAlpha(colour, alpha));
 			g.fillRect([xOffset, yOffset, segW, segH]);
 
 			if (i == currentValue)
@@ -119,6 +171,7 @@ namespace Motion {
 					currentValue = i;
 					Gater.setAttribute(Gater.Tempo, i);
 					Tempo_lbl.set("text", Engine.getTempoName(currentValue));
+					startAnimation();
 					this.repaint();
 					this.changed();
 					return;
@@ -146,4 +199,7 @@ namespace Motion {
 	}
 
 	Theme.registerThemePanel(Tempo_pnl);
+
+	// Start animation on init (always on for now)
+	startAnimation();
 }

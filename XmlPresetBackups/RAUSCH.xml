@@ -16,7 +16,6 @@
             <Control type="ScriptSlider" id="Mix_RingKnb" value="0.1772437244653702"/>
             <Control type="ScriptSlider" id="Volyme_RingKnb" value="0.3890477418899536"/>
             <Control type="ScriptSlider" id="Rez_RingKnb" value="0.4801516830921173"/>
-            <Control type="ScriptButton" id="MadeBy_btn" value="0.0"/>
           </Content>
           <UIData Source="RAUSCHUIData"/>
         </Processor>
@@ -31,7 +30,7 @@
     <Processor Type="EffectChain" ID="FX" Bypassed="0">
       <ChildProcessors>
         <Processor Type="Hardcoded Master FX" ID="Filter" Bypassed="0" Network="Filter"
-                   Filter="0.4011362493038177">
+                   Filter="0.5430107712745667">
           <ChildProcessors>
             <Processor Type="ModulatorChain" ID="P1 Modulation" Bypassed="1" Intensity="1.0">
               <ChildProcessors/>
@@ -61,7 +60,7 @@
           <RoutingMatrix NumSourceChannels="2" Channel0="0" Send0="-1" Channel1="1" Send1="-1"/>
         </Processor>
         <Processor Type="Hardcoded Master FX" ID="Gater" Bypassed="0" Network="Gater"
-                   Tempo="5.0" Mix="64.57450866699219" Smoothness="50.0">
+                   Tempo="4.0" Mix="44.79166793823242" Smoothness="50.0">
           <ChildProcessors>
             <Processor Type="ModulatorChain" ID="P1 Modulation" Bypassed="1" Intensity="1.0">
               <ChildProcessors/>

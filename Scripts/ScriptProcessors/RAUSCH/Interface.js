@@ -21,8 +21,8 @@ include("Random.js");
 
 
 include("Motion.js");
-include("Router.js");
-include("UI_Misc.js");function onNoteOn()
+include("UI_Misc.js");
+include("Router.js");function onNoteOn()
 {
 	
 }
