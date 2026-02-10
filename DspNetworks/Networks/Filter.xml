@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="Filter" AllowCompilation="1" AllowPolyphonic="1" Version="0.0.0">
+  <Node FactoryPath="container.chain" ID="Filter" Bypassed="0" Name="Filter"
+        ShowParameters="1">
+    <Nodes>
+      <Node ID="pma" FactoryPath="control.pma" Bypassed="0" Name="pma">
+        <ModulationTargets>
+          <Connection NodeId="minmax" ParameterId="Value"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="-1.0" MaxValue="2.0" ID="Multiply" Value="2.0" DefaultValue="1.0"/>
+          <Parameter MinValue="-1.0" MaxValue="1.0" ID="Add" Value="0.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="pma1" FactoryPath="control.pma" Bypassed="0" Name="pma1">
+        <ModulationTargets>
+          <Connection NodeId="minmax1" ParameterId="Value"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="-2.0" MaxValue="2.0" ID="Multiply" Value="2.0" DefaultValue="1.0"/>
+          <Parameter MinValue="-1.0" MaxValue="1.0" ID="Add" Value="-1.0" DefaultValue="0.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="minmax" FactoryPath="control.minmax" Bypassed="0" Name="minmax"
+            Folded="1">
+        <ModulationTargets>
+          <Connection NodeId="Cabs2" ParameterId="Lowpass"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Minimum" Value="0.06825537109375"
+                     DefaultValue="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Maximum" Value="1.0"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                     ID="Skew" Value="0.2876093913523757" DefaultValue="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="0.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="minmax1" FactoryPath="control.minmax" Bypassed="0" Name="minmax1">
+        <ModulationTargets>
+          <Connection NodeId="Cabs2" ParameterId="Hipass"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Minimum" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Maximum" Value="0.831804931640625"
+                     DefaultValue="1.0"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                     ID="Skew" Value="3.309845814011265" DefaultValue="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="0.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="Cabs2" FactoryPath="project.Cabs2" Bypassed="0" Name="Cabs2">
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="1" ID="Lowpass" DefaultValue="1.0"
+                     Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Hipass" Automated="1"/>
+        </Parameters>
+      </Node>
+    </Nodes>
+    <Parameters>
+      <Parameter ID="Filter" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
+                 DefaultValue="" Value="0.5659118041992187">
+        <Connections>
+          <Connection NodeId="pma" ParameterId="Value"/>
+          <Connection NodeId="pma1" ParameterId="Value"/>
+        </Connections>
+      </Parameter>
+    </Parameters>
+  </Node>
+</Network>

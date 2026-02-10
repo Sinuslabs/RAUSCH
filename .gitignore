@@ -1,0 +1,16 @@
+# HISE project ignores
+/Binaries/*
+/DSPNetworks/Binaries/*
+/Builds/*
+/Data/*
+/Samples/*
+!/Samples/readme.txt
+!/Samples/info.txt
+/UserPresets/*
+*.user
+*.ncb
+*.suo
+*.sln
+*.cache
+.DS_Store
+*.wav

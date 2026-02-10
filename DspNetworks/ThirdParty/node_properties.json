@@ -1,0 +1,54 @@
+{
+  "BitGlitter": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "Cabs2": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "CloudCoat": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "DeRez3": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "Discontapeity": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "HipCrush": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "Infinity2": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "Interstage": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "SoftClock3": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "Spiral2": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "StarChild2": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "ToTape8": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
+  "VoiceOfTheStarship": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ]
+}

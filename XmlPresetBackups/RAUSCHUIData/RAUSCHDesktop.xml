@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentProperties DeviceType="Desktop">
+  <Component type="ScriptImage" id="bg" x="0" y="0" width="448" height="536"
+             fileName="{PROJECT_FOLDER}Assets/v3.png" locked="1">
+    <Component type="ScriptPanel" id="Main_Route" x="10" y="10" width="430"
+               height="480" parentComponent="bg">
+      <Component type="ScriptPanel" id="Random_btn" x="16" y="9" parentComponent="Main_Route"
+                 width="30" height="30" allowCallbacks="Clicks &amp; Hover"/>
+      <Component type="ScriptComboBox" id="SoundSelector_cmb" x="50" y="10" parentComponent="Main_Route"
+                 width="280" height="30" itemColour="1725158355" itemColour2="4222463405"
+                 textColour="4286611584" text="ComboBox1_cmb" max="9" useCustomPopup="1"
+                 items="02_Vinyl_Records::Vinyl_Noise&#10;02_Vinyl_Records::Vinyl_Record&#10;03_Drone_Tones::Dark_Apostasy&#10;06_Misc::Casio_Drone&#10;06_Misc::Friend_Face&#10;07_Loops::Drone_Loop&#10;Ambient::Ambient_Texture&#10;Ambient::Industrial_Basement&#10;Ambient::Ribcage_Wall"/>
+      <Component type="ScriptButton" id="Next_iconBtn" x="380" y="10" parentComponent="Main_Route"
+                 width="30" height="30" isMomentary="1" text="caretRight;style=display;w=8"
+                 itemColour="1721013396"/>
+      <Component type="ScriptButton" id="Prev_iconBtn" x="340" y="10" parentComponent="Main_Route"
+                 width="30" height="30" isMomentary="1" text="caretLeft;style=display;w=8"
+                 itemColour="1721013396"/>
+      <Component type="ScriptSlider" id="Rate_RingKnb" x="30" y="360" parentComponent="Main_Route"
+                 width="80" height="90" processorId="DeRez" parameterId="Rate"
+                 text="Rate"/>
+      <Component type="ScriptSlider" id="Mix_RingKnb" x="210" y="360" parentComponent="Main_Route"
+                 width="80" height="90" text="Mix" processorId="DeRez" parameterId="Dry/Wet"/>
+      <Component type="ScriptSlider" id="Volyme_RingKnb" x="300" y="360" parentComponent="Main_Route"
+                 width="80" height="90" text="Volume" min="-100.0" max="6.0" processorId="Volume"
+                 parameterId="Gain" mode="Decibel"/>
+      <Component type="ScriptSlider" id="Rez_RingKnb" x="120" y="360" parentComponent="Main_Route"
+                 width="80" height="90" processorId="DeRez" parameterId="Rez"
+                 text="Rex"/>
+      <Component type="ScriptPanel" id="XY_pad" x="14" y="44" width="400" height="220"
+                 allowCallbacks="All Callbacks" parentComponent="Main_Route"/>
+      <Component type="ScriptPanel" id="Tempo_pnl" x="80" y="300" width="340"
+                 height="30" parentComponent="Main_Route" allowCallbacks="Clicks, Hover &amp; Dragging"/>
+    </Component>
+  </Component>
+  <Component type="ScriptButton" id="MadeBy_btn" x="10" y="501" text="Made by Sinuslabs"
+             width="160" height="28"/>
+  <Component type="ScriptFloatingTile" id="FloatingTile1" x="280" y="510"
+             ContentType="MatrixPeakMeter" bgColour="4278190080" itemColour="4283782485"
+             itemColour2="4280427042" Data="{&#10;  &quot;ProcessorId&quot;: &quot;RAUSCH&quot;,&#10;  &quot;Index&quot;: -1,&#10;  &quot;FollowWorkspace&quot;: false,&#10;  &quot;SegmentLedSize&quot;: 0.0,&#10;  &quot;UpDecayTime&quot;: 0.0,&#10;  &quot;DownDecayTime&quot;: 0.01,&#10;  &quot;UseSourceChannels&quot;: false,&#10;  &quot;SkewFactor&quot;: 0.2,&#10;  &quot;PaddingSize&quot;: 1.0,&#10;  &quot;ShowMaxPeak&quot;: 1.0,&#10;  &quot;ChannelIndexes&quot;: [&#10;    0,&#10;    1&#10;  ]&#10;}"
+             width="160" height="20"/>
+  <Component type="ScriptLabel" id="Tempo_lbl" x="10" y="310" width="70" height="30"
+             text="Gate" editable="0" fontName="Default"/>
+</ContentProperties>

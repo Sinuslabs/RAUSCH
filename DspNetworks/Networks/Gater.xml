@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="Gater" AllowCompilation="1" Version="0.0.0">
+  <Node FactoryPath="container.chain" ID="Gater" Bypassed="0" Name="Gater"
+        ShowParameters="1">
+    <Nodes>
+      <Node ID="modchain" FactoryPath="container.modchain" Bypassed="0" Name="modchain"
+            Folded="1">
+        <Nodes>
+          <Node ID="oscillator" FactoryPath="core.oscillator" Bypassed="0" Name="oscillator">
+            <ComplexData>
+              <DisplayBuffers>
+                <DisplayBuffer Index="-1"/>
+              </DisplayBuffers>
+            </ComplexData>
+            <Parameters>
+              <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Value="0.0"/>
+              <Parameter MinValue="0.0" MaxValue="20.00000029802322" StepSize="0.001"
+                         SkewFactor="0.2299045622348785" ID="Frequency" TextToValueConverter="Frequency"
+                         Value="0.042" DefaultValue="20.00000029802322"/>
+              <Parameter MinValue="1.0" MaxValue="16.0" StepSize="1.0" ID="Freq Ratio"
+                         Value="1.0"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Gate" Value="1.0"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Phase" TextToValueConverter="NormalizedPercentage"
+                         Value="0.0"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Gain" Value="1.0"/>
+            </Parameters>
+          </Node>
+          <Node ID="sig2mod" FactoryPath="math.sig2mod" Bypassed="0" Name="sig2mod">
+            <Parameters>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Value="0.690625" DefaultValue="0.0"/>
+            </Parameters>
+          </Node>
+          <Node ID="peak" FactoryPath="core.peak" Bypassed="0" Name="peak">
+            <ModulationTargets>
+              <Connection NodeId="minmax" ParameterId="Value"/>
+            </ModulationTargets>
+            <ComplexData>
+              <DisplayBuffers>
+                <DisplayBuffer Index="-1"/>
+              </DisplayBuffers>
+            </ComplexData>
+            <Parameters/>
+          </Node>
+          <Node ID="minmax" FactoryPath="control.minmax" Bypassed="0" Name="minmax">
+            <ModulationTargets>
+              <Connection NodeId="pma_unscaled" ParameterId="Add"/>
+            </ModulationTargets>
+            <Parameters>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+              <Parameter MinValue="-20.0" MaxValue="1.0" ID="Minimum" Value="-2.941681640625003"
+                         DefaultValue="0.0"/>
+              <Parameter MinValue="0.0" MaxValue="20.0" ID="Maximum" Value="1.4135107421875"
+                         DefaultValue="1.0"/>
+              <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                         ID="Skew" Value="1.0"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+              <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="0.0"/>
+            </Parameters>
+          </Node>
+          <Node ID="oscilloscope" FactoryPath="analyse.oscilloscope" Bypassed="0"
+                Name="oscilloscope">
+            <ComplexData>
+              <DisplayBuffers>
+                <DisplayBuffer Index="-1" EmbeddedData=""/>
+              </DisplayBuffers>
+            </ComplexData>
+            <Parameters/>
+          </Node>
+        </Nodes>
+        <Parameters/>
+      </Node>
+      <Node ID="tempo_sync" FactoryPath="control.tempo_sync" Bypassed="0"
+            Name="tempo_sync">
+        <ModulationTargets>
+          <Connection NodeId="pma_unscaled" ParameterId="Value"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="18.0" StepSize="1.0" ID="Tempo" Automated="1"/>
+          <Parameter MinValue="1.0" MaxValue="16.0" StepSize="1.0" ID="Multiplier"
+                     Value="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"
+                     DefaultValue="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1000.0" StepSize="0.1000000014901161"
+                     ID="UnsyncedTime" TextToValueConverter="Time" Value="200.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="pma_unscaled" FactoryPath="control.pma_unscaled" Bypassed="0"
+            Name="pma_unscaled">
+        <ModulationTargets>
+          <Connection NodeId="faust" ParameterId="Gate Time"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="2000.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="-1.0" MaxValue="1.0" ID="Multiply" Value="1.0"/>
+          <Parameter MinValue="-1.0" MaxValue="1.0" ID="Add" Automated="1"/>
+        </Parameters>
+      </Node>
+      <Node ID="faust" FactoryPath="core.faust" Bypassed="0" Name="faust">
+        <Properties>
+          <Property ID="ClassId" Value="Faust_Gater"/>
+          <Property ID="NumParameters" Value="0"/>
+        </Properties>
+        <Parameters>
+          <Parameter MinValue="10.0" MaxValue="2000.0" StepSize="1.0" ID="Gate Time"
+                     DefaultValue="200.0" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="100.0" StepSize="1.0" ID="Mix" DefaultValue="100.0"
+                     Automated="1"/>
+          <Parameter MinValue="0.5" MaxValue="50.0" StepSize="0.1000000014901161"
+                     ID="Smoothness" DefaultValue="5.0" Automated="1"/>
+        </Parameters>
+        <SwitchTargets/>
+      </Node>
+    </Nodes>
+    <Parameters>
+      <Parameter ID="Tempo" MinValue="0.0" MaxValue="18.0" StepSize="1.0" ModColour="0"
+                 ExternalModulation="Disabled" DefaultValue="" Value="4.0">
+        <Connections>
+          <Connection NodeId="tempo_sync" ParameterId="Tempo"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Mix" MinValue="0.0" MaxValue="100.0" StepSize="1.0" ModColour="0"
+                 ExternalModulation="Disabled" DefaultValue="" Value="54.0">
+        <Connections>
+          <Connection NodeId="faust" ParameterId="Mix"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Smoothness" MinValue="0.5" MaxValue="50.0" StepSize="0.1000000014901161"
+                 ModColour="0" ExternalModulation="Disabled" DefaultValue="" Value="50.0">
+        <Connections>
+          <Connection NodeId="faust" ParameterId="Smoothness"/>
+        </Connections>
+      </Parameter>
+    </Parameters>
+  </Node>
+</Network>
