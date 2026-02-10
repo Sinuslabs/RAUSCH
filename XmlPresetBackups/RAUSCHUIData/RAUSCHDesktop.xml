@@ -6,16 +6,16 @@
     <Component type="ScriptPanel" id="Main_Route" x="10" y="10" width="430"
                height="480" parentComponent="bg" text="Main">
       <Component type="ScriptPanel" id="Random_btn" x="16" y="9" parentComponent="Main_Route"
-                 width="30" height="30" allowCallbacks="Clicks &amp; Hover"/>
-      <Component type="ScriptComboBox" id="SoundSelector_cmb" x="50" y="10" parentComponent="Main_Route"
-                 width="280" height="30" itemColour="1725158355" itemColour2="4222463405"
-                 textColour="4286611584" text="ComboBox1_cmb" max="9" useCustomPopup="1"
-                 items="02_Vinyl_Records::Vinyl_Noise&#10;02_Vinyl_Records::Vinyl_Record&#10;03_Drone_Tones::Dark_Apostasy&#10;06_Misc::Casio_Drone&#10;06_Misc::Friend_Face&#10;07_Loops::Drone_Loop&#10;Ambient::Ambient_Texture&#10;Ambient::Industrial_Basement&#10;Ambient::Ribcage_Wall"/>
+                 width="40" height="40" allowCallbacks="Clicks &amp; Hover"/>
+      <Component type="ScriptComboBox" id="SoundSelector_cmb" x="60" y="10" parentComponent="Main_Route"
+                 width="280" height="40" itemColour="1725158355" itemColour2="4222463405"
+                 textColour="4286611584" text="ComboBox1_cmb" max="11" useCustomPopup="1"
+                 items="02_Vinyl_Records::Vinyl_Noise&#10;02_Vinyl_Records::Vinyl_Record&#10;03_Drone_Tones::Dark_Apostasy&#10;04_Crackle_Noise::Circuit Bend&#10;06_Misc::Birds&#10;06_Misc::Casio_Drone&#10;06_Misc::Friend_Face&#10;07_Loops::Drone_Loop&#10;Ambient::Ambient_Texture&#10;Ambient::Industrial_Basement&#10;Ambient::Ribcage_Wall"/>
       <Component type="ScriptButton" id="Next_iconBtn" x="380" y="10" parentComponent="Main_Route"
-                 width="30" height="30" isMomentary="1" text="caretRight;style=display;w=8"
+                 width="40" height="40" isMomentary="1" text="right_arrow;style=display;w=8"
                  itemColour="1721013396"/>
       <Component type="ScriptButton" id="Prev_iconBtn" x="340" y="10" parentComponent="Main_Route"
-                 width="30" height="30" isMomentary="1" text="caretLeft;style=display;w=8"
+                 width="40" height="40" isMomentary="1" text="left_arrow;style=display;w=8"
                  itemColour="1721013396"/>
       <Component type="ScriptSlider" id="Rate_RingKnb" x="30" y="360" parentComponent="Main_Route"
                  width="80" height="90" processorId="DeRez" parameterId="Rate"
@@ -28,10 +28,11 @@
       <Component type="ScriptSlider" id="Rez_RingKnb" x="120" y="360" parentComponent="Main_Route"
                  width="80" height="90" processorId="DeRez" parameterId="Rez"
                  text="Rex"/>
-      <Component type="ScriptPanel" id="XY_pad" x="14" y="44" width="400" height="220"
+      <Component type="ScriptPanel" id="XY_pad" x="0" y="50" width="420" height="240"
                  allowCallbacks="All Callbacks" parentComponent="Main_Route"/>
       <Component type="ScriptPanel" id="Tempo_pnl" x="80" y="300" width="340"
-                 height="30" parentComponent="Main_Route" allowCallbacks="Clicks, Hover &amp; Dragging"/>
+                 height="30" parentComponent="Main_Route" allowCallbacks="Clicks, Hover &amp; Dragging"
+                 tooltip="Motion Speed Control"/>
       <Component type="ScriptLabel" id="Tempo_lbl" x="0" y="300" width="70" height="30"
                  text="GATE" editable="0" fontName="Default" parentComponent="Main_Route"/>
     </Component>
@@ -39,9 +40,13 @@
                width="440" height="500" visible="0"/>
   </Component>
   <Component type="ScriptButton" id="MadeBy_btn" x="10" y="501" text="Made by Sinuslabs"
-             width="160" height="28" saveInPreset="0"/>
-  <Component type="ScriptFloatingTile" id="FloatingTile1" x="280" y="510"
-             ContentType="MatrixPeakMeter" bgColour="4278190080" itemColour="4283782485"
-             itemColour2="4280427042" Data="{&#10;  &quot;ProcessorId&quot;: &quot;RAUSCH&quot;,&#10;  &quot;Index&quot;: -1,&#10;  &quot;FollowWorkspace&quot;: false,&#10;  &quot;SegmentLedSize&quot;: 0.0,&#10;  &quot;UpDecayTime&quot;: 0.0,&#10;  &quot;DownDecayTime&quot;: 0.01,&#10;  &quot;UseSourceChannels&quot;: false,&#10;  &quot;SkewFactor&quot;: 0.2,&#10;  &quot;PaddingSize&quot;: 1.0,&#10;  &quot;ShowMaxPeak&quot;: 1.0,&#10;  &quot;ChannelIndexes&quot;: [&#10;    0,&#10;    1&#10;  ]&#10;}"
-             width="160" height="20"/>
+             width="90" height="30" saveInPreset="0"/>
+  <Component type="ScriptFloatingTile" id="FloatingTile1" x="360" y="510"
+             ContentType="MatrixPeakMeter" bgColour="0" itemColour="4283782485"
+             itemColour2="505553442" Data="{&#10;  &quot;ProcessorId&quot;: &quot;RAUSCH&quot;,&#10;  &quot;Index&quot;: -1,&#10;  &quot;FollowWorkspace&quot;: false,&#10;  &quot;SegmentLedSize&quot;: 0.0,&#10;  &quot;UpDecayTime&quot;: 0.0,&#10;  &quot;DownDecayTime&quot;: 0.01,&#10;  &quot;UseSourceChannels&quot;: false,&#10;  &quot;SkewFactor&quot;: 0.2,&#10;  &quot;PaddingSize&quot;: 1.0,&#10;  &quot;ShowMaxPeak&quot;: 1.0,&#10;  &quot;ChannelIndexes&quot;: [&#10;    0,&#10;    1&#10;  ]&#10;}"
+             width="80" height="20"/>
+  <Component type="ScriptFloatingTile" id="FloatingTile2" x="100" y="510"
+             ContentType="TooltipPanel" bgColour="3684408" itemColour="872415231"
+             itemColour2="0" textColour="3426236472" Data="{&#10;  &quot;Fade&quot;: true,&#10;  &quot;ShowIcon&quot;: true&#10;}"
+             width="170" height="20"/>
 </ContentProperties>

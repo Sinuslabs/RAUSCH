@@ -39,9 +39,9 @@ namespace Random {
 
 	const var KNOB_PARAMS = [
 		{ "id": "Rate_RingKnb", "min": 0.1, "max": 0.9, "bias": 0.5, "strength": 1.5 },
-		{ "id": "Mix_RingKnb", "min": 0.0, "max": 0.5, "bias": 0.3, "strength": 2.0 },
+		{ "id": "Mix_RingKnb", "min": 0.0, "max": 0.7, "bias": 0.3, "strength": 2.0 },
 		{ "id": "Volyme_RingKnb", "min": 0.2, "max": 0.8, "bias": 0.5, "strength": 1.0 },
-		{ "id": "Rez_RingKnb", "min": 0.3, "max": 0.8, "bias": 0.4, "strength": 2.5 }
+		{ "id": "Rez_RingKnb", "min": 0.18, "max": 0.8, "bias": 0.4, "strength": 2.5 }
 	];
 
 	const var XY_CONFIG = {
@@ -49,7 +49,7 @@ namespace Random {
 		"y": { "min": 0.0, "max": 0.8, "bias": 0.3, "strength": 2.0 }
 	};
 
-	const var TEMPO_CONFIG = { "min": 0, "max": 15, "bias": 0.3, "strength": 2.0 };
+	const var TEMPO_CONFIG = { "min": 0, "max": 15, "bias": 0.2, "strength": 2.0 };
 
 	// ─── Transition Config ──────────────────────────────────────────
 	const TRANSITION_TIME_MS = 15;  // timer interval in ms

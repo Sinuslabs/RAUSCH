@@ -24,11 +24,11 @@ namespace OldCombo_LAF {
     const var CONFIG = {
         // Layout
         padding: 4,
-        borderRadius: 4,
-        borderWidth: 1.0,
+        borderRadius: 3,
+        borderWidth: 0,
 
         // Font
-        fontSize: 16,
+        fontSize: 18,
 
         // Arrow
         arrowWidth: 6,
@@ -42,9 +42,9 @@ namespace OldCombo_LAF {
 
         // Popup
         popupBorderRadius: 4,
-        popupItemHeight: 28,
+        popupItemHeight: 32,
         popupItemPadding: 10,
-        popupItemFontSize: 13,
+        popupItemFontSize: 16,
         popupHighlightAlpha: 0.15,
         popupTickedAlpha: 1.0,
         popupSeparatorHeight: 1
@@ -115,18 +115,22 @@ namespace OldCombo_LAF {
             g.fillRect([CONFIG.popupItemPadding, h * 0.5, w - CONFIG.popupItemPadding * 2, CONFIG.popupSeparatorHeight]);
         }
 
-        if (!obj.isSeparator && obj.isHighlighted)
+        if (!obj.isSeparator && obj.isTicked)
         {
             g.setColour(Colours.withAlpha(TC.Display.on_display, CONFIG.popupHighlightAlpha));
+            g.fillRoundedRectangle([2, 1, w - 4, h - 2], CONFIG.popupBorderRadius);
+            textAlpha = CONFIG.popupTickedAlpha;
+        }
+
+        if (!obj.isSeparator && obj.isHighlighted)
+        {
+            g.setColour(Colours.withAlpha(TC.Display.on_display, CONFIG.popupHighlightAlpha * 2));
             g.fillRoundedRectangle([2, 1, w - 4, h - 2], CONFIG.popupBorderRadius);
             textAlpha = CONFIG.hoverAlpha;
         }
 
         if (!obj.isSeparator && !obj.isActive)
             textAlpha = CONFIG.disabledAlpha;
-
-        if (!obj.isSeparator && obj.isTicked)
-            textAlpha = CONFIG.popupTickedAlpha;
 
         if (!obj.isSeparator)
         {

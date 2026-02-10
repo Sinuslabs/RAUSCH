@@ -1,5 +1,0 @@
-namespace PathMerger {
-
-    const var Path_Merger = Content.getComponent("Path_Merger");
-
-}

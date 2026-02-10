@@ -53,23 +53,26 @@ namespace Motion {
 
 	const var animTimer = Engine.createTimerObject();
 
-	inline function startAnimation()
-	{
+	inline function startAnimation() {
 		animationStep = 0;
 		local ms = Engine.getMilliSecondsForTempo(currentValue);
 		local stepMs = ms / CONFIG.numSegments;
 		animTimer.startTimer(Math.max(20, Math.round(stepMs)));
 	}
 
-	inline function stopAnimation()
-	{
+	inline function updateAnimationSpeed() {
+		local ms = Engine.getMilliSecondsForTempo(currentValue);
+		local stepMs = ms / CONFIG.numSegments;
+		animTimer.startTimer(Math.max(20, Math.round(stepMs)));
+	}
+
+	inline function stopAnimation() {
 		animTimer.stopTimer();
 		animationStep = -1;
 		Tempo_pnl.repaint();
 	}
 
-	animTimer.setTimerCallback(function()
-	{
+	animTimer.setTimerCallback(function () {
 		animationStep++;
 
 		if (animationStep >= CONFIG.numSegments)
@@ -78,14 +81,12 @@ namespace Motion {
 		Tempo_pnl.repaint();
 	});
 
-	inline function getSegmentRatio(index)
-	{
+	inline function getSegmentRatio(index) {
 		local t = index / Math.max(1, CONFIG.numSegments - 1);
 		return CONFIG.maxSegmentRatio + t * (CONFIG.minSegmentRatio - CONFIG.maxSegmentRatio);
 	}
 
-	inline function getTotalRatio()
-	{
+	inline function getTotalRatio() {
 		local total = 0.0;
 
 		for (i = 0; i < CONFIG.numSegments; i++)
@@ -94,8 +95,7 @@ namespace Motion {
 		return total;
 	}
 
-	Tempo_pnl.setPaintRoutine(function(g)
-	{
+	Tempo_pnl.setPaintRoutine(function (g) {
 		var area = this.getLocalBounds(0);
 		var w = area[2];
 		var h = area[3];
@@ -113,17 +113,14 @@ namespace Motion {
 		var mix = Gater.getAttribute(Gater.Mix);
 		var mixNorm = mix / 100.0;
 
-		for (i = 0; i < CONFIG.numSegments; i++)
-		{
+		for (i = 0; i < CONFIG.numSegments; i++) {
 			var segW = (getSegmentRatio(i) / totalRatio) * availableW;
 			var alpha = CONFIG.segmentAlpha;
 
-			if (animationStep >= 0 && i <= currentValue)
-			{
+			if (animationStep >= 0 && i <= currentValue) {
 				var dist = animationStep - i;
 
-				if (dist >= 0 && dist <= CONFIG.pulseFalloff)
-				{
+				if (dist >= 0 && dist <= CONFIG.pulseFalloff) {
 					var t = 1.0 - (dist / CONFIG.pulseFalloff);
 					alpha = CONFIG.pulseMinAlpha + t * (CONFIG.pulseMaxAlpha - CONFIG.pulseMinAlpha);
 					alpha = alpha * mixNorm;
@@ -134,8 +131,7 @@ namespace Motion {
 			g.setColour(Colours.withAlpha(colour, alpha));
 			g.fillRect([xOffset, yOffset, segW, segH]);
 
-			if (i == currentValue)
-			{
+			if (i == currentValue) {
 				g.setColour(Colours.withAlpha(colour, CONFIG.activeAlpha));
 				g.drawRect([xOffset, yOffset, segW, segH], 1.0);
 			}
@@ -144,16 +140,14 @@ namespace Motion {
 		}
 	});
 
-	Tempo_pnl.setMouseCallback(function(event)
-	{
+	Tempo_pnl.setMouseCallback(function (event) {
 		if (event.hover)
 			Tempo_lbl.set("text", Engine.getTempoName(currentValue));
 
 		if (!event.hover && !event.drag)
 			Tempo_lbl.set("text", "GATE");
 
-		if (event.clicked || event.drag)
-		{
+		if (event.clicked || event.drag) {
 			var area = this.getLocalBounds(0);
 			var w = area[2];
 
@@ -162,16 +156,14 @@ namespace Motion {
 			var totalRatio = getTotalRatio();
 			var xOffset = CONFIG.padding;
 
-			for (i = 0; i < CONFIG.numSegments; i++)
-			{
+			for (i = 0; i < CONFIG.numSegments; i++) {
 				var segW = (getSegmentRatio(i) / totalRatio) * availableW;
 
-				if (event.x >= xOffset && event.x < xOffset + segW)
-				{
+				if (event.x >= xOffset && event.x < xOffset + segW) {
 					currentValue = i;
 					Gater.setAttribute(Gater.Tempo, i);
 					Tempo_lbl.set("text", Engine.getTempoName(currentValue));
-					startAnimation();
+					updateAnimationSpeed();
 					this.repaint();
 					this.changed();
 					return;
@@ -182,24 +174,21 @@ namespace Motion {
 		}
 	});
 
-	inline function getValue()
-	{
+	inline function getValue() {
 		return currentValue;
 	}
 
-	inline function setValue(val)
-	{
+	inline function setValue(val) {
 		currentValue = Math.max(0, Math.min(CONFIG.numSegments - 1, val));
 		Tempo_pnl.repaint();
 	}
 
-	inline function repaint()
-	{
+	inline function repaint() {
 		Tempo_pnl.repaint();
 	}
 
 	Theme.registerThemePanel(Tempo_pnl);
 
 	// Start animation on init (always on for now)
-	startAnimation();
+	//startAnimation();
 }

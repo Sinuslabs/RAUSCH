@@ -2,14 +2,10 @@ Console.clear();
 Console.startBenchmark();
 
 include("XYPad.js");
-include("Core/Icons.js");
-include("Core/Primitives.js");
-include("Core/ThemeData.js");
-include("Core/Theme.js");
+include("Core/include.js");
 
 Content.makeFrontInterface(448, 536);
 
-const TC = Theme.THEME.Colors;
 
 include("Styles/include.js");
 
@@ -22,13 +18,14 @@ include("Random.js");
 
 include("Motion.js");
 include("UI_Misc.js");
-include("Router.js");function onNoteOn()
+include("Router.js"); 
+function onNoteOn()
 {
-	
+	Motion.startAnimation();
 }
  function onNoteOff()
 {
-	
+	Motion.stopAnimation();
 }
  function onController()
 {
