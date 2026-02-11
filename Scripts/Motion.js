@@ -145,7 +145,7 @@ namespace Motion {
 			Tempo_lbl.set("text", Engine.getTempoName(currentValue));
 
 		if (!event.hover && !event.drag)
-			Tempo_lbl.set("text", "GATE");
+			Tempo_lbl.set("text", "Motion");
 
 		if (event.clicked || event.drag) {
 			var area = this.getLocalBounds(0);

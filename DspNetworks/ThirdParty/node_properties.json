@@ -19,6 +19,10 @@
     "IsPolyphonic",
     "AllowPolyphonic"
   ],
+  "Faust_Gater": [
+    "IsPolyphonic",
+    "AllowPolyphonic"
+  ],
   "HipCrush": [
     "IsPolyphonic",
     "AllowPolyphonic"

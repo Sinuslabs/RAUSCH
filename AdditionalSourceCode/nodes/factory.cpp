@@ -35,7 +35,7 @@ struct Factory: public scriptnode::dll::StaticLibraryHostFactory
 		registerPolyNode<project::Interstage<1>, project::Interstage<NUM_POLYPHONIC_VOICES>>();
 		registerPolyNode<project::Infinity2<1>, project::Infinity2<NUM_POLYPHONIC_VOICES>>();
 		registerPolyNode<project::HipCrush<1>, project::HipCrush<NUM_POLYPHONIC_VOICES>>();
-		registerPolyNode<project::Faust_Gater<1>, scriptnode::wrap::illegal_poly<project::Faust_Gater<1>>>();
+		registerPolyNode<project::Faust_Gater<1>, project::Faust_Gater<NUM_POLYPHONIC_VOICES>>();
 		registerPolyNode<project::Discontapeity<1>, project::Discontapeity<NUM_POLYPHONIC_VOICES>>();
 		registerPolyNode<project::DeRez3<1>, project::DeRez3<NUM_POLYPHONIC_VOICES>>();
 		registerPolyNode<project::CloudCoat<1>, project::CloudCoat<NUM_POLYPHONIC_VOICES>>();

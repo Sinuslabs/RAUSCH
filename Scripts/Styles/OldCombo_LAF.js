@@ -28,11 +28,11 @@ namespace OldCombo_LAF {
         borderWidth: 0,
 
         // Font
-        fontSize: 18,
+        fontSize: 20,
 
         // Arrow
-        arrowWidth: 6,
-        arrowHeight: 4,
+        arrowWidth: 10,
+        arrowHeight: 7,
         arrowRight: 10,
 
         // Alpha
@@ -42,7 +42,7 @@ namespace OldCombo_LAF {
 
         // Popup
         popupBorderRadius: 4,
-        popupItemHeight: 32,
+        popupItemHeight: 48,
         popupItemPadding: 10,
         popupItemFontSize: 16,
         popupHighlightAlpha: 0.15,
@@ -109,21 +109,18 @@ namespace OldCombo_LAF {
         local h = a[3];
         local textAlpha = CONFIG.defaultAlpha;
 
-        if (obj.isSeparator)
-        {
+        if (obj.isSeparator) {
             g.setColour(Colours.withAlpha(TC.Display.on_display, 0.15));
             g.fillRect([CONFIG.popupItemPadding, h * 0.5, w - CONFIG.popupItemPadding * 2, CONFIG.popupSeparatorHeight]);
         }
 
-        if (!obj.isSeparator && obj.isTicked)
-        {
+        if (!obj.isSeparator && obj.isTicked) {
             g.setColour(Colours.withAlpha(TC.Display.on_display, CONFIG.popupHighlightAlpha));
             g.fillRoundedRectangle([2, 1, w - 4, h - 2], CONFIG.popupBorderRadius);
             textAlpha = CONFIG.popupTickedAlpha;
         }
 
-        if (!obj.isSeparator && obj.isHighlighted)
-        {
+        if (!obj.isSeparator && obj.isHighlighted) {
             g.setColour(Colours.withAlpha(TC.Display.on_display, CONFIG.popupHighlightAlpha * 2));
             g.fillRoundedRectangle([2, 1, w - 4, h - 2], CONFIG.popupBorderRadius);
             textAlpha = CONFIG.hoverAlpha;
@@ -132,8 +129,7 @@ namespace OldCombo_LAF {
         if (!obj.isSeparator && !obj.isActive)
             textAlpha = CONFIG.disabledAlpha;
 
-        if (!obj.isSeparator)
-        {
+        if (!obj.isSeparator) {
             g.setColour(Colours.withAlpha(TC.Display.on_display, textAlpha));
             g.setFont(Theme.Regular, CONFIG.popupItemFontSize);
             g.drawAlignedText(obj.text, [CONFIG.popupItemPadding, 0, w - CONFIG.popupItemPadding * 2, h], "left");

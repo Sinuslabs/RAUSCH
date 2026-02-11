@@ -23,7 +23,7 @@
  * @ui XY_pad
  */
 namespace XYPad {
-	
+
 	const var Filter = Synth.getEffect("Filter");
 	const var Gater = Synth.getEffect("Gater");
     const var XY_pad = Content.getComponent("XY_pad");
@@ -39,7 +39,9 @@ namespace XYPad {
         glowFalloff: 2.0,
         minAlpha: 0.1,
         maxAlpha: 1.0,
-        handleStroke: 2.0
+        handleStroke: 2.0,
+        wiggleAmount: 2.5,
+        wiggleSpeed: 0.4
     };
 
     var xValue = 0.5;
@@ -47,6 +49,26 @@ namespace XYPad {
     var isDragging = false;
     var cols = 0;
     var rows = 0;
+    var wiggleTime = 0.0;
+
+    var wigglePhasesX = [];
+    var wigglePhasesY = [];
+    var wiggleInited = false;
+    var wi = 0;
+
+    inline function initWigglePhases(numDots)
+    {
+        wigglePhasesX = [];
+        wigglePhasesY = [];
+
+        for (wi = 0; wi < numDots; wi++)
+        {
+            wigglePhasesX.push(Math.random() * Math.PI * 2.0);
+            wigglePhasesY.push(Math.random() * Math.PI * 2.0);
+        }
+
+        wiggleInited = true;
+    }
 
     inline function clamp(val, lo, hi)
     {
@@ -68,6 +90,11 @@ namespace XYPad {
         cols = Math.floor((w - padding * 2 + gapSize) / (dotSize + gapSize));
         rows = Math.floor((h - padding * 2 + gapSize) / (dotSize + gapSize));
 
+        var totalDots = cols * rows;
+
+        if (!wiggleInited || wigglePhasesX.length != totalDots)
+            initWigglePhases(totalDots);
+
         var totalGridW = cols * dotSize + (cols - 1) * gapSize;
         var totalGridH = rows * dotSize + (rows - 1) * gapSize;
         var offsetX = (w - totalGridW) / 2;
@@ -80,6 +107,9 @@ namespace XYPad {
         // Handle position in grid-column/row space
         var handleCol = xValue * (cols - 1);
         var handleRow = yValue * (rows - 1);
+
+        var t = wiggleTime;
+        var wigAmt = CONFIG.wiggleAmount;
 
         for (var row = 0; row < rows; row++)
         {
@@ -94,16 +124,29 @@ namespace XYPad {
                 var dist = Math.sqrt(dx * dx + dy * dy);
 
                 var alpha = CONFIG.minAlpha;
+                var proximity = 0.0;
 
                 if (dist < CONFIG.glowRadius)
                 {
                     var normDist = dist / CONFIG.glowRadius;
                     var falloff = Math.pow(1.0 - normDist, CONFIG.glowFalloff);
                     alpha = CONFIG.minAlpha + falloff * (CONFIG.maxAlpha - CONFIG.minAlpha);
+                    proximity = falloff;
                 }
 
                 g.setColour(Colours.withAlpha(CONFIG.dotColour, alpha));
-                g.fillEllipse([x, y, dotSize, dotSize]);
+
+                if (proximity > 0.0)
+                {
+                    var dotIndex = row * cols + col;
+                    var wx = Math.sin(t + wigglePhasesX[dotIndex]) * wigAmt * proximity;
+                    var wy = Math.cos(t * 0.7 + wigglePhasesY[dotIndex]) * wigAmt * proximity;
+                    g.fillEllipse([x + wx, y + wy, dotSize, dotSize]);
+                }
+                else
+                {
+                    g.fillEllipse([x, y, dotSize, dotSize]);
+                }
             }
         }
 
@@ -118,6 +161,14 @@ namespace XYPad {
         g.setColour(CONFIG.handleColour);
         g.drawEllipse([hx, hy, hs, hs], CONFIG.handleStroke);
     });
+
+    XY_pad.setTimerCallback(function()
+    {
+        wiggleTime += CONFIG.wiggleSpeed;
+        this.repaint();
+    });
+
+    XY_pad.startTimer(40);
 
     XY_pad.setMouseCallback(function(event)
     {

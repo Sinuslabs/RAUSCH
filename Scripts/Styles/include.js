@@ -39,3 +39,4 @@ include("Styles/ADSRKnobLAF.js");
 include("Styles/OctKnbLAF.js");
 include("Styles/OctButtonLAF.js");
 include("Styles/PresetBrowserLAF.js");
+include("Styles/DefaultKnobLAF.js");

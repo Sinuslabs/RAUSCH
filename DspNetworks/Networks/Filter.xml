@@ -4,12 +4,29 @@
   <Node FactoryPath="container.chain" ID="Filter" Bypassed="0" Name="Filter"
         ShowParameters="1">
     <Nodes>
+      <Node ID="smoothed_parameter" FactoryPath="control.smoothed_parameter"
+            Bypassed="0" Name="smoothed_parameter">
+        <Properties>
+          <Property ID="Mode" Value="Linear Ramp"/>
+        </Properties>
+        <ModulationTargets>
+          <Connection NodeId="pma" ParameterId="Value"/>
+          <Connection NodeId="pma1" ParameterId="Value"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="1000.0" StepSize="0.1000000014901161"
+                     ID="SmoothingTime" TextToValueConverter="Time" Value="234.1000034883618"
+                     DefaultValue="100.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+        </Parameters>
+      </Node>
       <Node ID="pma" FactoryPath="control.pma" Bypassed="0" Name="pma">
         <ModulationTargets>
           <Connection NodeId="minmax" ParameterId="Value"/>
         </ModulationTargets>
         <Parameters>
-          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value"/>
           <Parameter MinValue="-1.0" MaxValue="2.0" ID="Multiply" Value="2.0" DefaultValue="1.0"/>
           <Parameter MinValue="-1.0" MaxValue="1.0" ID="Add" Value="0.0"/>
         </Parameters>
@@ -65,10 +82,9 @@
     </Nodes>
     <Parameters>
       <Parameter ID="Filter" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
-                 DefaultValue="" Value="0.5659118041992187">
+                 DefaultValue="" Value="0.5874430541992188">
         <Connections>
-          <Connection NodeId="pma" ParameterId="Value"/>
-          <Connection NodeId="pma1" ParameterId="Value"/>
+          <Connection NodeId="smoothed_parameter" ParameterId="Value"/>
         </Connections>
       </Parameter>
     </Parameters>

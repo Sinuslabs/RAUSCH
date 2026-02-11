@@ -14,7 +14,7 @@ using namespace snex::Types;
 
 namespace Filter_impl
 {
-// ============================| Node & Parameter type declarations |============================
+// ==============================| Node & Parameter type declarations |==============================
 
 template <int NV>
 using minmax_t = control::minmax<NV, 
@@ -30,25 +30,29 @@ template <int NV>
 using pma1_t = control::pma<NV, 
                             parameter::plain<minmax1_t<NV>, 0>>;
 
-namespace Filter_t_parameters
-{
+template <int NV>
+using smoothed_parameter_mod = parameter::chain<ranges::Identity, 
+                                                parameter::plain<pma_t<NV>, 0>, 
+                                                parameter::plain<pma1_t<NV>, 0>>;
 
 template <int NV>
-using Filter = parameter::chain<ranges::Identity, 
-                                parameter::plain<Filter_impl::pma_t<NV>, 0>, 
-                                parameter::plain<Filter_impl::pma1_t<NV>, 0>>;
+using smoothed_parameter_t = wrap::mod<smoothed_parameter_mod<NV>, 
+                                       control::smoothed_parameter<NV, smoothers::linear_ramp<NV>>>;
 
+namespace Filter_t_parameters
+{
 }
 
 template <int NV>
-using Filter_t_ = container::chain<Filter_t_parameters::Filter<NV>, 
-                                   wrap::fix<2, pma_t<NV>>, 
+using Filter_t_ = container::chain<parameter::plain<Filter_impl::smoothed_parameter_t<NV>, 0>, 
+                                   wrap::fix<2, smoothed_parameter_t<NV>>, 
+                                   pma_t<NV>, 
                                    pma1_t<NV>, 
                                    minmax_t<NV>, 
                                    minmax1_t<NV>, 
                                    project::Cabs2<NV>>;
 
-// ================================| Root node initialiser class |================================
+// =================================| Root node initialiser class |=================================
 
 template <int NV> struct instance: public Filter_impl::Filter_t_<NV>
 {
@@ -66,7 +70,7 @@ template <int NV> struct instance: public Filter_impl::Filter_t_<NV>
 		SNEX_METADATA_ENCODED_PARAMETERS(18)
 		{
 			0x005C, 0x0000, 0x0000, 0x6946, 0x746C, 0x7265, 0x0000, 0x0000, 
-            0x0000, 0x0000, 0x3F80, 0xDF99, 0x3F10, 0x0000, 0x3F80, 0x0000, 
+            0x0000, 0x0000, 0x3F80, 0x62AB, 0x3F16, 0x0000, 0x3F80, 0x0000, 
             0x0000, 0x0000
 		};
 		SNEX_METADATA_ENCODED_MOD_INFO(2)
@@ -77,28 +81,33 @@ template <int NV> struct instance: public Filter_impl::Filter_t_<NV>
 	
 	instance()
 	{
-		// Node References ----------------------------------------------------------------------
+		// Node References -------------------------------------------------------------------------
 		
-		auto& pma = this->getT(0);     // Filter_impl::pma_t<NV>
-		auto& pma1 = this->getT(1);    // Filter_impl::pma1_t<NV>
-		auto& minmax = this->getT(2);  // Filter_impl::minmax_t<NV>
-		auto& minmax1 = this->getT(3); // Filter_impl::minmax1_t<NV>
-		auto& Cabs2 = this->getT(4);   // project::Cabs2<NV>
+		auto& smoothed_parameter = this->getT(0); // Filter_impl::smoothed_parameter_t<NV>
+		auto& pma = this->getT(1);                // Filter_impl::pma_t<NV>
+		auto& pma1 = this->getT(2);               // Filter_impl::pma1_t<NV>
+		auto& minmax = this->getT(3);             // Filter_impl::minmax_t<NV>
+		auto& minmax1 = this->getT(4);            // Filter_impl::minmax1_t<NV>
+		auto& Cabs2 = this->getT(5);              // project::Cabs2<NV>
 		
-		// Parameter Connections ----------------------------------------------------------------
+		// Parameter Connections -------------------------------------------------------------------
 		
-		auto& Filter_p = this->getParameterT(0);
-		Filter_p.connectT(0, pma);  // Filter -> pma::Value
-		Filter_p.connectT(1, pma1); // Filter -> pma1::Value
+		this->getParameterT(0).connectT(0, smoothed_parameter); // Filter -> smoothed_parameter::Value
 		
-		// Modulation Connections ---------------------------------------------------------------
+		// Modulation Connections ------------------------------------------------------------------
 		
 		minmax.getWrappedObject().getParameter().connectT(0, Cabs2);  // minmax -> Cabs2::Lowpass
 		pma.getWrappedObject().getParameter().connectT(0, minmax);    // pma -> minmax::Value
 		minmax1.getWrappedObject().getParameter().connectT(0, Cabs2); // minmax1 -> Cabs2::Hipass
 		pma1.getWrappedObject().getParameter().connectT(0, minmax1);  // pma1 -> minmax1::Value
+		smoothed_parameter.getParameter().connectT(0, pma);           // smoothed_parameter -> pma::Value
+		smoothed_parameter.getParameter().connectT(1, pma1);          // smoothed_parameter -> pma1::Value
 		
-		// Default Values -----------------------------------------------------------------------
+		// Default Values --------------------------------------------------------------------------
+		
+		;                                           // smoothed_parameter::Value is automated
+		smoothed_parameter.setParameterT(1, 234.1); // control::smoothed_parameter::SmoothingTime
+		smoothed_parameter.setParameterT(2, 1.);    // control::smoothed_parameter::Enabled
 		
 		;                         // pma::Value is automated
 		pma.setParameterT(1, 2.); // control::pma::Multiply
@@ -125,7 +134,7 @@ template <int NV> struct instance: public Filter_impl::Filter_t_<NV>
 		; // Cabs2::Lowpass is automated
 		; // Cabs2::Hipass is automated
 		
-		this->setParameterT(0, 0.565912);
+		this->setParameterT(0, 0.587443);
 	}
 	
 	static constexpr bool isPolyphonic() { return NV > 1; };
@@ -141,7 +150,7 @@ template <int NV> struct instance: public Filter_impl::Filter_t_<NV>
 #undef setParameterT
 #undef setParameterWT
 #undef getParameterT
-// =====================================| Public Definition |=====================================
+// ======================================| Public Definition |======================================
 
 namespace project
 {

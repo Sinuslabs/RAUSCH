@@ -19,7 +19,7 @@ include("Random.js");
 include("Motion.js");
 include("UI_Misc.js");
 include("Router.js"); 
-function onNoteOn()
+//include("Drop.js");function onNoteOn()
 {
 	Motion.startAnimation();
 }
