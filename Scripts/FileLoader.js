@@ -30,7 +30,6 @@ namespace FileLoader {
 	const var Gain1 = Synth.getEffect("Gain1");
 	const var Gain2 = Synth.getEffect("Gain2");
 	
-	Engine.loadAudioFilesIntoPool();
 
 	const var SoundSelector_cmb = Content.getComponent("SoundSelector_cmb");
 	const var Next_iconBtn = Content.getComponent("Next_iconBtn");
@@ -191,7 +190,7 @@ namespace FileLoader {
 
 		// Load into the INACTIVE player, then crossfade
 		if (activePlayer == 1)
-		{
+		{	Engine.loadAudioFilesIntoPool();
 			AudioLoopPlayer2.setFile(fileRef);
 			fadeTarget = 2;
 		}

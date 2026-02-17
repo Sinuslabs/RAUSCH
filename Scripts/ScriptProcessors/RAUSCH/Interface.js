@@ -1,31 +1,30 @@
 Console.clear();
 Console.startBenchmark();
 
+
+Content.makeFrontInterface(336, 427);
+
 include("XYPad.js");
 include("Core/include.js");
-
-Content.makeFrontInterface(448, 536);
-
-
 include("Styles/include.js");
-
-Console.stopBenchmark();
-
 include("FileLoader.js");
-
 include("Random.js");
-
-
 include("Motion.js");
 include("UI_Misc.js");
 include("Router.js"); 
-//include("Drop.js");function onNoteOn()
+
+Console.stopBenchmark();
+
+function onNoteOn()
 {
 	Motion.startAnimation();
+	XYPad.startAnimation();
 }
  function onNoteOff()
 {
 	Motion.stopAnimation();
+	XYPad.stopAnimation();
+	
 }
  function onController()
 {

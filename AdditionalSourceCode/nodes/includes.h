@@ -26,7 +26,7 @@
 
 // Include compiled network files ------------------
 
-#include "Crush_networkdata.h"
+#include "Crush.h"
 #include "Filter.h"
 #include "Gater.h"
 

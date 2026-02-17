@@ -20,7 +20,7 @@ namespace DefaultKnobLAF {
 
         g.setColour(TC.UI.on_panel);
         local text = (obj.hover || obj.clicked) ? obj.valueAsText : obj.text;
-        g.setFont(Theme.Regular, 16);
+        g.setFont(Theme.Regular, 20);
         g.drawAlignedText(text, a, "centredBottom");
     }
 

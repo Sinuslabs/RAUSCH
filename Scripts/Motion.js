@@ -61,6 +61,7 @@ namespace Motion {
 	}
 
 	inline function updateAnimationSpeed() {
+		if (animationStep < 0) return;
 		local ms = Engine.getMilliSecondsForTempo(currentValue);
 		local stepMs = ms / CONFIG.numSegments;
 		animTimer.startTimer(Math.max(20, Math.round(stepMs)));
@@ -129,11 +130,11 @@ namespace Motion {
 			}
 
 			g.setColour(Colours.withAlpha(colour, alpha));
-			g.fillRect([xOffset, yOffset, segW, segH]);
+			g.fillRoundedRectangle([xOffset, yOffset, segW, segH], 1.0);
 
 			if (i == currentValue) {
 				g.setColour(Colours.withAlpha(colour, CONFIG.activeAlpha));
-				g.drawRect([xOffset, yOffset, segW, segH], 1.0);
+				g.drawRoundedRectangle([xOffset, yOffset, segW, segH], 1.0, 1.0);
 			}
 
 			xOffset += segW + CONFIG.segmentGap;

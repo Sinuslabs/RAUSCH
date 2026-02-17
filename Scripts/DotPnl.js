@@ -55,28 +55,10 @@ namespace DotPnl {
         speed: 0.15
     };
 
-    const var STATIC = {
-        intensity: 0.8,
-        flickerRate: 0.3
-    };
-
     const var SCAN = {
         width: 3.0,
         speed: 0.08,
         vertical: false
-    };
-
-    const var PULSE = {
-        speed: 0.12,
-        sharpness: 4.0,
-        offset: 0.0
-    };
-
-    const var PLASMA = {
-        speed: 0.03,
-        scale1: 4.0,
-        scale2: 3.0,
-        scale3: 5.0
     };
 
     const var RIPPLE = {
@@ -93,27 +75,15 @@ namespace DotPnl {
         arms: 3
     };
 
-    const var BREATHE = {
-        speed: 0.015,
-        depth: 1.0
-    };
-
-    const var WAVE = {
-        speed: 0.05,
-        frequency: 2.0,
-        angle: 0.0
-    };
-
     const var NOISE = {
-        speed: 0.02,
-        scale: 3.0,
-        octaves: 3
+        speed: 0.04,
+        scale: 5.0,
+        octaves: 4
     };
 
     var animationData = [];
     var phase = 0.0;
     var phase2 = 0.0;
-    var phase3 = 0.0;
     var cols = 0;
     var rows = 0;
     var rainDrops = [];
@@ -166,16 +136,6 @@ namespace DotPnl {
         }
     }
 
-    inline function calcStaticAlpha(col, row)
-    {
-        local noise = Math.random();
-
-        if (noise < STATIC.flickerRate)
-            return ANIM.minAlpha + (Math.random() * STATIC.intensity * (ANIM.maxAlpha - ANIM.minAlpha));
-
-        return ANIM.minAlpha + (noise * (1.0 - STATIC.intensity) * (ANIM.maxAlpha - ANIM.minAlpha));
-    }
-
     inline function calcScanAlpha(col, row)
     {
         local pos = SCAN.vertical ? col : row;
@@ -193,34 +153,6 @@ namespace DotPnl {
         }
 
         return ANIM.minAlpha;
-    }
-
-    inline function calcPulseAlpha(col, row, centerCol, centerRow, maxDist)
-    {
-        local dx = col - centerCol;
-        local dy = row - centerRow;
-        local dist = Math.sqrt(dx * dx + dy * dy);
-        local normDist = dist / maxDist;
-
-        local wave = Math.sin(phase * Math.PI * 2.0 - normDist * PULSE.offset);
-        local shaped = Math.pow((wave + 1.0) * 0.5, PULSE.sharpness);
-
-        return ANIM.minAlpha + shaped * (ANIM.maxAlpha - ANIM.minAlpha);
-    }
-
-    inline function calcPlasmaAlpha(col, row, centerCol, centerRow)
-    {
-        local x = col / Math.max(1, cols);
-        local y = row / Math.max(1, rows);
-
-        local v1 = Math.sin(x * PLASMA.scale1 + phase);
-        local v2 = Math.sin(PLASMA.scale2 * (x * Math.sin(phase2) + y * Math.cos(phase2)) + phase);
-        local v3 = Math.sin(PLASMA.scale3 * Math.sqrt((x - 0.5) * (x - 0.5) + (y - 0.5) * (y - 0.5)) + phase3);
-        local v4 = Math.sin(Math.sqrt(x * x + y * y) * PLASMA.scale1 + phase2);
-
-        local combined = (v1 + v2 + v3 + v4) / 4.0;
-
-        return ANIM.minAlpha + (combined + 1.0) * 0.5 * (ANIM.maxAlpha - ANIM.minAlpha);
     }
 
     inline function calcRippleAlpha(col, row, centerCol, centerRow, maxDist)
@@ -294,35 +226,6 @@ namespace DotPnl {
         local value = (arms + 1.0) * 0.5 * fade;
 
         return ANIM.minAlpha + value * (ANIM.maxAlpha - ANIM.minAlpha);
-    }
-
-    inline function calcBreatheAlpha(col, row, centerCol, centerRow, maxDist)
-    {
-        local dx = col - centerCol;
-        local dy = row - centerRow;
-        local dist = Math.sqrt(dx * dx + dy * dy);
-        local normDist = dist / maxDist;
-
-        local breath = (Math.sin(phase * Math.PI * 2.0) + 1.0) * 0.5;
-        breath = Math.pow(breath, 2.0) * BREATHE.depth;
-
-        local spatial = 1.0 - normDist * 0.5 * (1.0 - breath);
-        local value = breath * spatial;
-
-        return ANIM.minAlpha + value * (ANIM.maxAlpha - ANIM.minAlpha);
-    }
-
-    inline function calcWaveAlpha(col, row)
-    {
-        local x = col / Math.max(1, cols);
-        local y = row / Math.max(1, rows);
-
-        local angleRad = WAVE.angle * Math.PI / 180.0;
-        local projected = x * Math.cos(angleRad) + y * Math.sin(angleRad);
-
-        local wave = Math.sin(projected * WAVE.frequency * Math.PI * 2.0 + phase);
-
-        return ANIM.minAlpha + (wave + 1.0) * 0.5 * (ANIM.maxAlpha - ANIM.minAlpha);
     }
 
     inline function hash(x, y)
@@ -417,21 +320,9 @@ namespace DotPnl {
                 {
                     alpha = calcRainAlpha(col, row);
                 }
-                else if (ANIM.mode == "static")
-                {
-                    alpha = calcStaticAlpha(col, row);
-                }
                 else if (ANIM.mode == "scan")
                 {
                     alpha = calcScanAlpha(col, row);
-                }
-                else if (ANIM.mode == "pulse")
-                {
-                    alpha = calcPulseAlpha(col, row, centerCol, centerRow, maxDist);
-                }
-                else if (ANIM.mode == "plasma")
-                {
-                    alpha = calcPlasmaAlpha(col, row, centerCol, centerRow);
                 }
                 else if (ANIM.mode == "ripple")
                 {
@@ -440,14 +331,6 @@ namespace DotPnl {
                 else if (ANIM.mode == "vortex")
                 {
                     alpha = calcVortexAlpha(col, row, centerCol, centerRow, maxDist);
-                }
-                else if (ANIM.mode == "breathe")
-                {
-                    alpha = calcBreatheAlpha(col, row, centerCol, centerRow, maxDist);
-                }
-                else if (ANIM.mode == "wave")
-                {
-                    alpha = calcWaveAlpha(col, row);
                 }
                 else if (ANIM.mode == "noise")
                 {
@@ -489,18 +372,6 @@ namespace DotPnl {
             if (phase > 1.0)
                 phase -= 1.0;
         }
-        else if (ANIM.mode == "pulse")
-        {
-            phase += PULSE.speed;
-            if (phase > 1.0)
-                phase -= 1.0;
-        }
-        else if (ANIM.mode == "plasma")
-        {
-            phase += PLASMA.speed;
-            phase2 += PLASMA.speed * 0.7;
-            phase3 += PLASMA.speed * 1.3;
-        }
         else if (ANIM.mode == "ripple")
         {
             if (Math.random() < RIPPLE.spawnRate)
@@ -520,16 +391,6 @@ namespace DotPnl {
         else if (ANIM.mode == "vortex")
         {
             phase += VORTEX.speed;
-        }
-        else if (ANIM.mode == "breathe")
-        {
-            phase += BREATHE.speed;
-            if (phase > 1.0)
-                phase -= 1.0;
-        }
-        else if (ANIM.mode == "wave")
-        {
-            phase += WAVE.speed;
         }
         else if (ANIM.mode == "noise")
         {
@@ -584,7 +445,6 @@ namespace DotPnl {
 
         phase = 0.0;
         phase2 = 0.0;
-        phase3 = 0.0;
 
         Dot_pnl.repaint();
     }
@@ -605,16 +465,6 @@ namespace DotPnl {
         RAIN.speed = s;
     }
 
-    inline function setStaticIntensity(i)
-    {
-        STATIC.intensity = i;
-    }
-
-    inline function setStaticFlickerRate(r)
-    {
-        STATIC.flickerRate = r;
-    }
-
     inline function setScanWidth(w)
     {
         SCAN.width = w;
@@ -629,33 +479,6 @@ namespace DotPnl {
     {
         SCAN.vertical = v;
         Dot_pnl.repaint();
-    }
-
-    inline function setPulseSpeed(s)
-    {
-        PULSE.speed = s;
-    }
-
-    inline function setPulseSharpness(s)
-    {
-        PULSE.sharpness = s;
-    }
-
-    inline function setPulseOffset(o)
-    {
-        PULSE.offset = o;
-    }
-
-    inline function setPlasmaSpeed(s)
-    {
-        PLASMA.speed = s;
-    }
-
-    inline function setPlasmaScales(s1, s2, s3)
-    {
-        PLASMA.scale1 = s1;
-        PLASMA.scale2 = s2;
-        PLASMA.scale3 = s3;
     }
 
     inline function setRippleMaxCount(m)
@@ -696,31 +519,6 @@ namespace DotPnl {
     inline function setVortexArms(a)
     {
         VORTEX.arms = a;
-    }
-
-    inline function setBreatheSpeed(s)
-    {
-        BREATHE.speed = s;
-    }
-
-    inline function setBreatheDepth(d)
-    {
-        BREATHE.depth = d;
-    }
-
-    inline function setWaveSpeed(s)
-    {
-        WAVE.speed = s;
-    }
-
-    inline function setWaveFrequency(f)
-    {
-        WAVE.frequency = f;
-    }
-
-    inline function setWaveAngle(a)
-    {
-        WAVE.angle = a;
     }
 
     inline function setNoiseSpeed(s)
@@ -774,7 +572,7 @@ namespace DotPnl {
     }
 
     // Mode cycling
-    const var modes = ["tunnel", "rain", "static", "scan", "pulse", "plasma", "ripple", "vortex", "breathe", "wave", "noise"];
+    const var modes = ["tunnel", "rain", "scan", "ripple", "vortex", "noise"];
     var currentModeIndex = 0;
     var cycleEnabled = false;
 

@@ -1,4 +1,4 @@
-namespace Router {
+	namespace Router {
 
 	const routes = Content.getAllComponents('_Route');
 	const routerBtns = Content.getAllComponents('_router');
@@ -20,6 +20,11 @@ namespace Router {
 			Router.goTo(component.get('text'));
 		}
 	};
+	
+	
+    Engine.loadImageIntoPool('{PROJECT_FOLDER}Assets/v3.png');
+    Engine.loadImageIntoPool('{PROJECT_FOLDER}Assets/about.png');
+
 
 	reg currentRoute = 'Main';
 	reg previousRoute = '';
@@ -33,16 +38,20 @@ namespace Router {
 		});
 	}
 
-	//Engine.loadImageIntoPool('filename');
+	Engine.loadImageIntoPool('filename');
 	
 	inline function goTo(goToRoute) {
-		
-		Console.print(goToRoute);
-	
 		
 		local toRoute = goToRoute;
 
 		if (!toRoute) return;
+		
+		if (toRoute == 'Main') {
+			bgImage.set('fileName', '{PROJECT_FOLDER}Assets/v3.png');
+		} else {
+		
+			bgImage.set('fileName', '{PROJECT_FOLDER}Assets/about.png');
+		}
 
 		if (toRoute == 'back') {
 			if (previousRoute != '') {
