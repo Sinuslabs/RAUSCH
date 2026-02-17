@@ -4,8 +4,8 @@
   <Name value="RAUSCH"/>
   <Version value="1.0.0"/>
   <Description value=""/>
-  <BundleIdentifier value="com.myCompany.product"/>
-  <PluginCode value="Abcd"/>
+  <BundleIdentifier value="com.Sinuslabs.rausch"/>
+  <PluginCode value="Raus"/>
   <EmbedAudioFiles value="Yes"/>
   <EmbedImageFiles value="Yes"/>
   <SupportFullDynamicsHLAC value="No"/>
@@ -20,7 +20,7 @@
   <AppGroupID value=""/>
   <RedirectSampleFolder value=""/>
   <AAXCategoryFX value="AAX_ePlugInCategory_Modulation"/>
-  <VST3Category value=""/>
+  <VST3Category value="Synth"/>
   <SupportMonoFX value="No"/>
   <EnableMidiInputFX value="No"/>
   <EnableMidiOut value="No"/>

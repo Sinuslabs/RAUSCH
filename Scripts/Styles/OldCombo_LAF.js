@@ -28,7 +28,7 @@ namespace OldCombo_LAF {
         borderWidth: 0,
 
         // Font
-        fontSize: 20,
+        fontSize: 22,
 
         // Arrow
         arrowWidth: 10,
@@ -73,21 +73,8 @@ namespace OldCombo_LAF {
         g.setColour(textColour);
         g.setFont(Theme.Regular, CONFIG.fontSize);
 
-        local textArea = [CONFIG.padding, 0, w - CONFIG.padding * 2 - CONFIG.arrowRight - CONFIG.arrowWidth, h];
+        local textArea = [CONFIG.padding, 0, w - CONFIG.padding * 2, h];
         g.drawAlignedText(obj.text, textArea, "left");
-
-        // Arrow
-        local arrowX = w - CONFIG.arrowRight - CONFIG.arrowWidth;
-        local arrowY = (h - CONFIG.arrowHeight) / 2;
-
-        g.setColour(Colours.withAlpha(TC.Display.on_display, alpha));
-
-        local p = Content.createPath();
-        p.startNewSubPath(0.0, 0.0);
-        p.lineTo(1.0, 0.0);
-        p.lineTo(0.5, 1.0);
-        p.closeSubPath();
-        g.fillPath(p, [arrowX, arrowY, CONFIG.arrowWidth, CONFIG.arrowHeight]);
     }
 
     // --- Popup Background ---

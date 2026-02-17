@@ -9,13 +9,13 @@
         <Processor Type="ScriptProcessor" ID="Interface" Bypassed="0">
           <ChildProcessors/>
           <Content>
-            <Control type="ScriptComboBox" id="SoundSelector_cmb" value="11.0"/>
+            <Control type="ScriptComboBox" id="SoundSelector_cmb" value="20.0"/>
             <Control type="ScriptButton" id="Next_iconBtn" value="0.0"/>
             <Control type="ScriptButton" id="Prev_iconBtn" value="0.0"/>
-            <Control type="ScriptSlider" id="Rate_defaultKnb" value="1.0"/>
-            <Control type="ScriptSlider" id="Mix_defaultKnb" value="0.6800000071525574"/>
-            <Control type="ScriptSlider" id="Volyme_defaultKnb" value="0.0"/>
-            <Control type="ScriptSlider" id="Rez_defaultKnb" value="0.699999988079071"/>
+            <Control type="ScriptSlider" id="Rate_defaultKnb" value="0.7300000190734863"/>
+            <Control type="ScriptSlider" id="Mix_defaultKnb" value="0.3499999940395355"/>
+            <Control type="ScriptSlider" id="Rez_defaultKnb" value="0.434819370508194"/>
+            <Control type="ScriptSlider" id="Volyme_RingKnb" value="0.5714667439460754"/>
           </Content>
           <UIData Source="RAUSCHUIData"/>
         </Processor>
@@ -29,8 +29,8 @@
     </Processor>
     <Processor Type="EffectChain" ID="FX" Bypassed="0">
       <ChildProcessors>
-        <Processor Type="Hardcoded Master FX" ID="Filter" Bypassed="0" Network="Filter"
-                   Filter="0.5234375">
+        <Processor Type="HardcodedMasterFX" ID="Filter" Bypassed="0" Network="Filter"
+                   Filter="0.5012418031692505">
           <ChildProcessors>
             <Processor Type="ModulatorChain" ID="P1 Modulation" Bypassed="1" Intensity="1.0">
               <ChildProcessors/>
@@ -59,8 +59,8 @@
           </ChildProcessors>
           <RoutingMatrix NumSourceChannels="2" Channel0="0" Send0="-1" Channel1="1" Send1="-1"/>
         </Processor>
-        <Processor Type="Hardcoded Master FX" ID="Gater" Bypassed="0" Network="Gater"
-                   Tempo="5.0" Mix="61.57407379150391" Smoothness="41.20000076293945">
+        <Processor Type="HardcodedMasterFX" ID="Gater" Bypassed="0" Network="Gater"
+                   Tempo="5.0" Mix="65.95787811279297" Smoothness="41.20000076293945">
           <ChildProcessors>
             <Processor Type="ModulatorChain" ID="P1 Modulation" Bypassed="1" Intensity="1.0">
               <ChildProcessors/>
@@ -89,8 +89,8 @@
           </ChildProcessors>
           <RoutingMatrix NumSourceChannels="2" Channel0="0" Send0="-1" Channel1="1" Send1="-1"/>
         </Processor>
-        <Processor Type="Hardcoded Master FX" ID="DeRez" Bypassed="0" Network="DeRez3"
-                   Rate="1.0" Rez="0.699999988079071" DryWet="0.6800000071525574">
+        <Processor Type="HardcodedMasterFX" ID="DeRez" Bypassed="0" Network="DeRez3"
+                   Rate="0.7300000190734863" Rez="0.434819370508194" DryWet="0.3499999940395355">
           <ChildProcessors>
             <Processor Type="ModulatorChain" ID="P1 Modulation" Bypassed="1" Intensity="1.0">
               <ChildProcessors/>
@@ -119,8 +119,8 @@
           </ChildProcessors>
           <RoutingMatrix NumSourceChannels="2" Channel0="0" Send0="-1" Channel1="1" Send1="-1"/>
         </Processor>
-        <Processor Type="SimpleGain" ID="Volume" Bypassed="0" Gain="0.0" Delay="0.0"
-                   Width="100.0" Balance="0.0" InvertPolarity="0.0">
+        <Processor Type="SimpleGain" ID="Volume" Bypassed="0" Gain="0.5714664459228516"
+                   Delay="0.0" Width="100.0" Balance="0.0" InvertPolarity="0.0">
           <ChildProcessors>
             <Processor Type="ModulatorChain" ID="Gain Modulation" Bypassed="0" Intensity="1.0">
               <ChildProcessors/>
@@ -139,11 +139,11 @@
         </Processor>
       </ChildProcessors>
     </Processor>
-    <Processor Type="AudioLooper" ID="Audio Loop Player1" Bypassed="0" Gain="0.25"
+    <Processor Type="AudioLooper" ID="Audio Loop Player1" Bypassed="0" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                SyncMode="1.0" PitchTracking="0.0" LoopEnabled="1.0" RootNote="64.0"
-               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}06_Misc/724456__benoitdechaut__cable-car-drone.wav"
-               min="0" max="5722779" loopStart="0" loopEnd="5722779">
+               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}07_Loops/Drone_Loop.wav"
+               min="0" max="1461094" loopStart="0" loopEnd="1461094">
       <ChildProcessors>
         <Processor Type="MidiProcessorChain" ID="Midi Processor" Bypassed="0">
           <ChildProcessors/>
@@ -190,11 +190,11 @@
       </ChildProcessors>
       <RoutingMatrix NumSourceChannels="2" Channel0="0" Send0="-1" Channel1="1" Send1="-1"/>
     </Processor>
-    <Processor Type="AudioLooper" ID="Audio Loop Player2" Bypassed="0" Gain="0.25"
+    <Processor Type="AudioLooper" ID="Audio Loop Player2" Bypassed="0" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                SyncMode="1.0" PitchTracking="0.0" LoopEnabled="1.0" RootNote="64.0"
-               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}06_Misc/719401__lamp__space-string (1).wav"
-               min="0" max="3471922" loopStart="0" loopEnd="3471922">
+               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}07_Loops/Drone_Loop.wav"
+               min="0" max="1461094" loopStart="0" loopEnd="1461094">
       <ChildProcessors>
         <Processor Type="MidiProcessorChain" ID="Midi Processor" Bypassed="0">
           <ChildProcessors/>

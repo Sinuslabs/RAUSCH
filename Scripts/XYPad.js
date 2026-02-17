@@ -31,7 +31,7 @@ namespace XYPad {
     const var CONFIG = {
         dotSize: 8,
         gap: 4,
-        padding: 10,
+        padding: 4,
         dotColour: 0x88FFFFFF,
         handleSize: 18,
         handleColour: 0xFFFFFFFF,
@@ -40,7 +40,7 @@ namespace XYPad {
         minAlpha: 0.1,
         maxAlpha: 1.0,
         handleStroke: 2.0,
-        wiggleAmount: 2.5,
+        wiggleAmount: 1.5,
         wiggleSpeed: 0.4
     };
 
@@ -50,6 +50,9 @@ namespace XYPad {
     var cols = 0;
     var rows = 0;
     var wiggleTime = 0.0;
+    var wiggleActive = false;
+    var wiggleIntensity = 0.0;
+    var wiggleFadeStep = 0.08;
 
     var wigglePhasesX = [];
     var wigglePhasesY = [];
@@ -109,7 +112,7 @@ namespace XYPad {
         var handleRow = yValue * (rows - 1);
 
         var t = wiggleTime;
-        var wigAmt = CONFIG.wiggleAmount;
+        var wigAmt = CONFIG.wiggleAmount * wiggleIntensity;
 
         for (var row = 0; row < rows; row++)
         {
@@ -136,7 +139,7 @@ namespace XYPad {
 
                 g.setColour(Colours.withAlpha(CONFIG.dotColour, alpha));
 
-                if (proximity > 0.0)
+                if (wiggleIntensity > 0.0 && proximity > 0.0)
                 {
                     var dotIndex = row * cols + col;
                     var wx = Math.sin(t + wigglePhasesX[dotIndex]) * wigAmt * proximity;
@@ -164,11 +167,34 @@ namespace XYPad {
 
     XY_pad.setTimerCallback(function()
     {
+        if (wiggleActive && wiggleIntensity < 1.0)
+        {
+            wiggleIntensity = clamp(wiggleIntensity + wiggleFadeStep, 0.0, 1.0);
+        }
+        else if (!wiggleActive && wiggleIntensity > 0.0)
+        {
+            wiggleIntensity = clamp(wiggleIntensity - wiggleFadeStep, 0.0, 1.0);
+
+            if (wiggleIntensity <= 0.0)
+            {
+                this.stopTimer();
+            }
+        }
+
         wiggleTime += CONFIG.wiggleSpeed;
         this.repaint();
     });
 
-    XY_pad.startTimer(40);
+    inline function startAnimation()
+    {
+        wiggleActive = true;
+        XY_pad.startTimer(40);
+    }
+
+    inline function stopAnimation()
+    {
+        wiggleActive = false;
+    }
 
     XY_pad.setMouseCallback(function(event)
     {

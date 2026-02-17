@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <ContentProperties DeviceType="Desktop">
-  <Component type="ScriptImage" id="bg" x="0" y="0" width="448" height="536"
+  <Component type="ScriptImage" id="bg" x="0" y="0" width="336" height="427"
              fileName="{PROJECT_FOLDER}Assets/v3.png" locked="1">
-    <Component type="ScriptPanel" id="Main_Route" x="10" y="10" width="430"
-               height="480" parentComponent="bg" text="Main">
-      <Component type="ScriptPanel" id="Random_btn" x="16" y="9" parentComponent="Main_Route"
-                 width="40" height="40" allowCallbacks="Clicks &amp; Hover"/>
-      <Component type="ScriptComboBox" id="SoundSelector_cmb" x="60" y="10" parentComponent="Main_Route"
-                 width="280" height="40" itemColour="1725158355" itemColour2="4222463405"
-                 textColour="4286611584" text="ComboBox1_cmb" max="24" useCustomPopup="1"
-                 items="02_Vinyl_Records::Vinyl_Noise&#10;02_Vinyl_Records::Vinyl_Record&#10;03_Drone_Tones::Dark_Apostasy&#10;04_Crackle_Noise::Circuit Bend&#10;06_Misc::678044__alfrodou__machine&#10;06_Misc::685679__xkeril__humming-in-a-minor&#10;06_Misc::690091__christmaskrumble666__cold-ambient-bgm-extended&#10;06_Misc::693632__younoise__shining-dew&#10;06_Misc::699820__logancircle2__dishwasher&#10;06_Misc::702669__kronek9__haunted-hall-1&#10;06_Misc::719401__lamp__space-string (1)&#10;06_Misc::724456__benoitdechaut__cable-car-drone&#10;06_Misc::732818__pushkin__alien-wind-2024-03-31_hard-drives-v02&#10;06_Misc::733362__theojt__oppressive-music-theme&#10;06_Misc::744017__rmshh__sci-fi-ambient-1&#10;06_Misc::744021__rmshh__sci-fi-ambient-2-glitch-2-stem&#10;06_Misc::750352__selectdetail57__granite-spitting&#10;06_Misc::Birds&#10;06_Misc::Casio_Drone&#10;06_Misc::Friend_Face&#10;07_Loops::Drone_Loop&#10;Ambient::Ambient_Texture&#10;Ambient::Industrial_Basement&#10;Ambient::Ribcage_Wall"/>
-      <Component type="ScriptButton" id="Next_iconBtn" x="380" y="10" parentComponent="Main_Route"
-                 width="40" height="40" isMomentary="1" text="right_arrow;style=display;w=8"
-                 itemColour="1721013396"/>
-      <Component type="ScriptButton" id="Prev_iconBtn" x="340" y="10" parentComponent="Main_Route"
-                 width="40" height="40" isMomentary="1" text="left_arrow;style=display;w=8"
-                 itemColour="1721013396"/>
-      <Component type="ScriptSlider" id="Rate_defaultKnb" x="40" y="370" parentComponent="Main_Route"
-                 width="70" height="90" processorId="DeRez" parameterId="Rate"
-                 text="Rate" filmstripImage="{PROJECT_FOLDER}Filmstrips/Default_light.png"
-                 numStrips="100" tooltip="Dampens signal" mode="NormalizedPercentage"
+    <Component type="ScriptPanel" id="Main_Route" x="0" y="0" width="560" height="669"
+               parentComponent="bg" text="Main">
+      <Component type="ScriptComboBox" id="SoundSelector_cmb" x="40" y="10" parentComponent="Main_Route"
+                 width="210" height="30" itemColour="1725158355" itemColour2="4222463405"
+                 textColour="4286611584" text="ComboBox1_cmb" max="23" useCustomPopup="1"
+                 items="02_Vinyl_Records::Vinyl_Noise&#10;02_Vinyl_Records::Vinyl_Record&#10;03_Drone_Tones::Dark_Apostasy&#10;04_Crackle_Noise::Circuit Bend&#10;06_Misc::678044__alfrodou__machine&#10;06_Misc::685679__xkeril__humming-in-a-minor&#10;06_Misc::693632__younoise__shining-dew&#10;06_Misc::699820__logancircle2__dishwasher&#10;06_Misc::702669__kronek9__haunted-hall-1&#10;06_Misc::719401__lamp__space-string (1)&#10;06_Misc::724456__benoitdechaut__cable-car-drone&#10;06_Misc::732818__pushkin__alien-wind-2024-03-31_hard-drives-v02&#10;06_Misc::733362__theojt__oppressive-music-theme&#10;06_Misc::744017__rmshh__sci-fi-ambient-1&#10;06_Misc::744021__rmshh__sci-fi-ambient-2-glitch-2-stem&#10;06_Misc::750352__selectdetail57__granite-spitting&#10;06_Misc::Birds&#10;06_Misc::Casio_Drone&#10;06_Misc::Friend_Face&#10;07_Loops::Drone_Loop&#10;Ambient::Ambient_Texture&#10;Ambient::Industrial_Basement&#10;Ambient::Ribcage_Wall"
+                 tooltip="Select Sound"/>
+      <Component type="ScriptButton" id="Next_iconBtn" x="296" y="9" parentComponent="Main_Route"
+                 width="30" height="30" isMomentary="1" text="right_arrow;style=display;w=6;h=8"
+                 itemColour="1721013396" tooltip="Next Sound"/>
+      <Component type="ScriptButton" id="Prev_iconBtn" x="257" y="9" parentComponent="Main_Route"
+                 width="30" height="30" isMomentary="1" text="left_arrow;style=display;w=6;h=8"
+                 itemColour="1721013396" tooltip="Prev Sound"/>
+      <Component type="ScriptSlider" id="Rate_defaultKnb" x="220" y="282" parentComponent="Main_Route"
+                 width="60" height="86" processorId="DeRez" parameterId="Rate"
+                 text="Smooth" filmstripImage="{PROJECT_FOLDER}Filmstrips/Default_light.png"
+                 numStrips="100.0" tooltip="Dampens signal" mode="NormalizedPercentage"
                  suffix="%" middlePosition="0.5" pluginParameterName="Rez Rate"/>
-      <Component type="ScriptSlider" id="Mix_defaultKnb" x="220" y="370" parentComponent="Main_Route"
-                 width="70" height="90" text="Mix" processorId="DeRez" parameterId="Dry/Wet"
+      <Component type="ScriptSlider" id="Mix_defaultKnb" x="57" y="282" parentComponent="Main_Route"
+                 width="60" height="87" text="Noise" processorId="DeRez" parameterId="Dry/Wet"
                  tooltip="Crush Mix" mode="NormalizedPercentage" suffix="%" middlePosition="0.5"
                  pluginParameterName="Rez Mix"/>
-      <Component type="ScriptSlider" id="Volyme_defaultKnb" x="310" y="370" parentComponent="Main_Route"
-                 width="70" height="90" text="Volume" min="-100.0" max="6.0" processorId="Volume"
-                 parameterId="Gain" mode="Decibel" tooltip="Master Volume" pluginParameterName="Volume"/>
-      <Component type="ScriptSlider" id="Rez_defaultKnb" x="130" y="370" parentComponent="Main_Route"
-                 width="70" height="90" processorId="DeRez" parameterId="Rez"
-                 text="Rez" tooltip="Crush the signal" mode="NormalizedPercentage"
+      <Component type="ScriptSlider" id="Rez_defaultKnb" x="138" y="282" parentComponent="Main_Route"
+                 width="60" height="87" processorId="DeRez" parameterId="Rez"
+                 text="Crush" tooltip="Crush the signal" mode="NormalizedPercentage"
                  suffix="%" middlePosition="0.5" pluginParameterName="Rez Crush"/>
-      <Component type="ScriptPanel" id="XY_pad" x="0" y="40" width="420" height="250"
+      <Component type="ScriptPanel" id="XY_pad" x="5" y="33" width="320" height="170"
                  allowCallbacks="All Callbacks" parentComponent="Main_Route" popupOnRightClick="0"
                  tooltip="Filter + Motion Control"/>
-      <Component type="ScriptPanel" id="Tempo_pnl" x="80" y="300" width="340"
+      <Component type="ScriptPanel" id="Random_btn" x="10" y="10" parentComponent="Main_Route"
+                 width="30" height="30" allowCallbacks="Clicks &amp; Hover" tooltip="Randomize in Category"/>
+      <Component type="ScriptPanel" id="Tempo_pnl" x="77" y="206" width="250"
                  height="30" parentComponent="Main_Route" allowCallbacks="Clicks, Hover &amp; Dragging"
                  tooltip="Motion Speed Control"/>
-      <Component type="ScriptLabel" id="Tempo_lbl" x="0" y="300" width="70" height="30"
+      <Component type="ScriptLabel" id="Tempo_lbl" x="10" y="210" width="60" height="20"
                  text="Motion" editable="0" fontName="Default" parentComponent="Main_Route"
-                 tooltip="Motion Speed Control"/>
+                 tooltip="Motion Speed Control" fontSize="14.0"/>
       <Component type="ScriptPanel" id="Drop_pnl" x="0" y="50" width="420" height="250"
                  allowCallbacks="Clicks, Hover &amp; Dragging" parentComponent="Main_Route"
                  popupOnRightClick="0" visible="0" enabled="0"/>
@@ -49,13 +47,17 @@
     <Component type="ScriptPanel" id="About_Route" x="0" y="0" parentComponent="bg"
                width="440" height="500" visible="0"/>
   </Component>
-  <Component type="ScriptButton" id="MadeBy_btn" x="10" y="501" text="Made by Sinuslabs"
-             width="90" height="30" saveInPreset="0"/>
-  <Component type="ScriptFloatingTile" id="FloatingTile1" x="360" y="510"
+  <Component type="ScriptSlider" id="Volyme_RingKnb" x="178" y="397" width="80"
+             height="30" text="Master;label=left;dots=hide" min="-100.0" max="6.0"
+             processorId="Volume" parameterId="Gain" mode="Decibel" tooltip="Master Volume"
+             pluginParameterName="Volume"/>
+  <Component type="ScriptButton" id="MadeBy_btn" x="5" y="405" text="Made by Sinuslabs"
+             width="90" height="20" saveInPreset="0"/>
+  <Component type="ScriptFloatingTile" id="FloatingTile1" x="260" y="406"
              ContentType="MatrixPeakMeter" bgColour="0" itemColour="4283782485"
              itemColour2="505553442" Data="{&#10;  &quot;ProcessorId&quot;: &quot;RAUSCH&quot;,&#10;  &quot;Index&quot;: -1,&#10;  &quot;FollowWorkspace&quot;: false,&#10;  &quot;SegmentLedSize&quot;: 0.0,&#10;  &quot;UpDecayTime&quot;: 0.0,&#10;  &quot;DownDecayTime&quot;: 0.01,&#10;  &quot;UseSourceChannels&quot;: false,&#10;  &quot;SkewFactor&quot;: 0.2,&#10;  &quot;PaddingSize&quot;: 1.0,&#10;  &quot;ShowMaxPeak&quot;: 1.0,&#10;  &quot;ChannelIndexes&quot;: [&#10;    0,&#10;    1&#10;  ]&#10;}"
-             width="80" height="20"/>
-  <Component type="ScriptFloatingTile" id="FloatingTile2" x="130" y="509"
+             width="70" height="10"/>
+  <Component type="ScriptFloatingTile" id="FloatingTile2" x="140" y="510"
              ContentType="TooltipPanel" bgColour="3684408" itemColour="16777215"
              itemColour2="0" textColour="3426236472" Data="{&#10;  &quot;Fade&quot;: true,&#10;  &quot;ShowIcon&quot;: false&#10;}"
              width="200" height="20" FontSize="12.0"/>

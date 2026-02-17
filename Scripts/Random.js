@@ -40,7 +40,7 @@ namespace Random {
 	const var KNOB_PARAMS = [
 		{ "id": "Rate_defaultKnb", "min": 0.1, "max": 0.9, "bias": 0.5, "strength": 1.5 },
 		{ "id": "Mix_defaultKnb", "min": 0.0, "max": 0.7, "bias": 0.3, "strength": 2.0 },
-		{ "id": "Volyme_defaultKnb", "min": 0.2, "max": 0.8, "bias": 0.5, "strength": 1.0 },
+		{ "id": "Volyme_RingKnb", "min": 0.2, "max": 0.8, "bias": 0.5, "strength": 1.0 },
 		{ "id": "Rez_defaultKnb", "min": 0.18, "max": 0.8, "bias": 0.4, "strength": 2.5 }
 	];
 
@@ -176,7 +176,7 @@ namespace Random {
 	Random_btn.setPaintRoutine(randomRoutine);
 	 inline function randomRoutine(g) {
 		local a = this.getLocalBounds(0);
-		local padding = 12;
+		local padding = 6;
 		local width = a[2] - padding * 2;
 		local height = a[3] - padding * 2;
 

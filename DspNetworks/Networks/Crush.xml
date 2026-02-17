@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Network ID="Crush" Version="0.0.0">
+<Network ID="Crush" Version="0.0.0" AllowCompilation="1" AllowPolyphonic="1">
   <Node FactoryPath="container.chain" ID="Crush" Bypassed="0" Name="Crush"
         ShowParameters="1">
     <Nodes>
+      <Node ID="minmax" FactoryPath="control.minmax" Bypassed="0" Name="minmax">
+        <ModulationTargets>
+          <Connection NodeId="DeRez3" ParameterId="Rez"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Minimum" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Maximum" Value="1.0"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                     ID="Skew" Value="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="1.0"
+                     DefaultValue="0.0"/>
+        </Parameters>
+      </Node>
       <Node ID="dry_wet1" FactoryPath="container.split" ShowParameters="1"
             NodeColour="4284975001" Bypassed="0" Name="dry_wet">
         <Nodes>
@@ -52,10 +67,8 @@
             <Nodes>
               <Node ID="DeRez3" FactoryPath="project.DeRez3" Bypassed="0" Name="DeRez3">
                 <Parameters>
-                  <Parameter MinValue="0.0" MaxValue="1.0" ID="Rate" Value="0.8951176757812499"
-                             DefaultValue="1.0"/>
-                  <Parameter MinValue="0.0" MaxValue="1.0" ID="Rez" Value="0.8805266113281249"
-                             DefaultValue="1.0"/>
+                  <Parameter MinValue="0.0" MaxValue="1.0" ID="Rate" DefaultValue="1.0" Automated="1"/>
+                  <Parameter MinValue="0.0" MaxValue="1.0" ID="Rez" DefaultValue="1.0" Automated="1"/>
                   <Parameter MinValue="0.0" MaxValue="1.0" ID="Dry/Wet" Value="1.0"/>
                 </Parameters>
               </Node>
@@ -78,7 +91,7 @@
           </Node>
         </Nodes>
         <Parameters>
-          <Parameter MinValue="0.0" MaxValue="1.0" ID="DryWet" DefaultValue="" Value="1.0">
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="DryWet" Automated="1">
             <Connections>
               <Connection NodeId="dry_wet_mixer" ParameterId="Value"/>
             </Connections>
@@ -86,6 +99,25 @@
         </Parameters>
       </Node>
     </Nodes>
-    <Parameters/>
+    <Parameters>
+      <Parameter ID="Mix" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
+                 DefaultValue="" Value="0.503918212890625">
+        <Connections>
+          <Connection NodeId="dry_wet1" ParameterId="DryWet"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Rate" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
+                 DefaultValue="" Value="0.7916402587890625">
+        <Connections>
+          <Connection NodeId="DeRez3" ParameterId="Rate"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Rez" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
+                 DefaultValue="" Value="0.315386962890625">
+        <Connections>
+          <Connection NodeId="minmax" ParameterId="Value"/>
+        </Connections>
+      </Parameter>
+    </Parameters>
   </Node>
 </Network>

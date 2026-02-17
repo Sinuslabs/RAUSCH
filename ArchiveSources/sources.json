@@ -1,0 +1,135 @@
+{
+  "sources": [
+    {
+      "identifier": "Voyager1",
+      "title": "Voyager 1",
+      "description": "The Voyager 1 mission. MISSION INFORMATION: Launch date: 09/05/1977, 12:56:00 UTC Launch vehicle: Titan IIIE / Centaur Launch site: Space Launch Complex 41, Cape Canaveral Air Force Station Mission duration: In progress (Interstellar mission) Digitized, cataloged and archived by the Houston Audio Control Room, at the NASA Johnson Space Center.",
+      "creator": "NASA",
+      "date": "",
+      "license_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+      "license_safe": true,
+      "subjects": [
+        "NASA",
+        "Voyager"
+      ],
+      "file": {
+        "name": "495-AAB_8min10sec.flac",
+        "format": "flac",
+        "url": "https://archive.org/download/Voyager1/495-AAB_8min10sec.flac"
+      },
+      "local_path": null,
+      "downloaded_at": null
+    },
+    {
+      "identifier": "nonfiction055_1804_librivox",
+      "title": "Short Nonfiction Collection, Vol. 055",
+      "description": "LibriVox recording of Short Nonfiction Collection, Vol. 055 by Various. Read by LibriVox Volunteers Fifteen short nonfiction works in the public domain, independently chosen by the readers. Topics include Philosophy and Psychology: selections from Kierkegaard's \"Preparation for a Christian Life\" and Jung's \"The Hymn of Creation,\" and an exploration of Hegel's psychology; Arts and the Avant-garde: critiques of Kreymborg by Lola Ridge and of Pablo Picasso by Marius de Zayas, the rationale behind \"1001 Afternoons in Chicago\" by Ben Hecht, and notes on the 15th century inventors of moveable type; Science: \"Voyager I Encounters Saturn\" by NASA and microscopic investigation of protozoa; Equal Rights: comments by Charles Sumner and Lucy Parsons; Evocations of the Seasons: January days in New England and Monarch butterflies overwintering in Bolinas, California; as well as praise for American cheese, and an essay by Henry Ford, expounding \"What I Learned About Business.\" (summary by Sue Anderson) Georg Hegel's Psychology was translated by Granville Stanley Hall Gustav Jung's The Hymn of Creation was translated by Beatrice M Hinkle For further information, including links to online text, reader information, RSS feeds, CD cover or other formats (if available), please go to the LibriVox catalog page for this recording. For more free audio books or to become a volunteer reader, visit LibriVox.org . M4B Audiobook (114MB)",
+      "creator": "Various",
+      "date": "2018-04-21T00:00:00Z",
+      "license_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+      "license_safe": true,
+      "subjects": [
+        "librivox",
+        "audiobooks",
+        "Chicago",
+        "saturn",
+        "cheese",
+        "butterfly",
+        "tramp",
+        "protozoa",
+        "plueromonas jaculans",
+        "typesetting",
+        "eudemonism",
+        "voyager i"
+      ],
+      "file": {
+        "name": "snf055_capturingsmallestanimal_hausman_ava.mp3",
+        "format": "mp3",
+        "url": "https://archive.org/download/nonfiction055_1804_librivox/snf055_capturingsmallestanimal_hausman_ava.mp3"
+      },
+      "local_path": null,
+      "downloaded_at": null
+    },
+    {
+      "identifier": "SymphoniesOfThePlanets3",
+      "title": "Symphonies of the Planets 3",
+      "description": "Voyager recordings",
+      "creator": "NASA",
+      "date": "",
+      "license_url": "http://creativecommons.org/publicdomain/mark/1.0/",
+      "license_safe": true,
+      "subjects": [
+        "symphonies",
+        "of",
+        "the",
+        "planets",
+        "nasa",
+        "voyager",
+        "recordings",
+        "mercury",
+        "venus",
+        "earth",
+        "mars",
+        "jupiter",
+        "saturn",
+        "uranus",
+        "neptune",
+        "pluto",
+        "triton",
+        "io"
+      ],
+      "file": {
+        "name": "2-SymphoniesOfThePlanets-Nasa-VoyagerRecordings.flac",
+        "format": "flac",
+        "url": "https://archive.org/download/SymphoniesOfThePlanets3/2-SymphoniesOfThePlanets-Nasa-VoyagerRecordings.flac"
+      },
+      "local_path": null,
+      "downloaded_at": null
+    },
+    {
+      "identifier": "voyager_ep_612",
+      "title": "NoiseCollector's Voyager EP",
+      "description": "Voyager music composed, arranged, recorded and mixed by Digi Hartatak. Features drum track \"galaxy\" by Pablo Perez, Vocals by Deadman and Nay Nay. Samples courtesy of NASA, the White House archives, Freesound and other forgotten internet sources. Album artwork by Pablo Perez. Based on the voyager space craft's golden record and the sounds on it. The diagram drawn on it was used in an image synth to create sounds and patterns for this and other future projects. Voyagers are us and the sounds we make which are hurtling through space into the void in the intro. The Golden Record is encoded on one side with binary graphical information including our location and how to play the other side. The other side and a stylus play the sounds in these 2 tracks. Xenophobe Flash Back is the short segment before Sirens of Alpha Centauri which depicts astronaut's encountering bogey objects and the siren's calling by Nay Nay from a distant neighbor star. Answering the Call is more sounds of the golden record and sounds of space mixed with some human soul music by Deadman, space is expressed in the meaning of outerspace and in atmosphere in the depiction of environmental ambient sound splicing. The singularity is the eventual outcome of existence, man's discovery of orange soil and dark matter as portrayed by the percussion sequencing of Pablo Perez mixed with sounds of moon explorers and launch control. The Deep Freeze, one of three options of oblivion for this universe. This is a time lapse of the final moments in the last part of the inhabitable artificial universe created near the end of time and it's theme music as we fade out of existence.",
+      "creator": "Various Artists",
+      "date": "2007-11-08T00:00:00Z",
+      "license_url": "http://creativecommons.org/licenses/by/3.0/",
+      "license_safe": true,
+      "subjects": [
+        "voyager",
+        "pablo perez",
+        "deadman",
+        "nay nay",
+        "freesound",
+        "ambient",
+        "space",
+        "experimental",
+        "avant-garde",
+        "electronic"
+      ],
+      "file": {
+        "name": "01_Voyagers_TheGoldenRecord.flac",
+        "format": "flac",
+        "url": "https://archive.org/download/voyager_ep_612/01_Voyagers_TheGoldenRecord.flac"
+      },
+      "local_path": null,
+      "downloaded_at": null
+    },
+    {
+      "identifier": "SpaceSoundsMusic",
+      "title": "Space Sounds Music",
+      "description": "Space Sounds of Voyager-NASA",
+      "creator": "",
+      "date": "",
+      "license_url": "",
+      "license_safe": true,
+      "subjects": "Music",
+      "file": {
+        "name": "NASA Voyager Space Sounds FLAC/Jupiter.flac",
+        "format": "flac",
+        "url": "https://archive.org/download/SpaceSoundsMusic/NASA Voyager Space Sounds FLAC/Jupiter.flac"
+      },
+      "local_path": null,
+      "downloaded_at": null
+    }
+  ]
+}
