@@ -2,15 +2,15 @@
  * @file XYPad.js
  * @description 2D XY pad with dot-grid background and draggable handle.
  *   Renders a grid of dots with a glow effect around the handle position.
- *   X-axis controls Filter frequency, Y-axis controls Gater mix (inverted).
+ *   X-axis controls Filter frequency, Y-axis controls Filter mix (inverted).
  *
  * @outline
- *   Filter / Gater         DSP effects controlled by X and Y axes
+ *   Filter / Filter         DSP effects controlled by X and Y axes
  *   XY_pad                 Panel component hosting the pad
  *   CONFIG                 Layout: dotSize, gap, padding, handleSize, glowRadius, glowFalloff, etc.
  *   xValue / yValue        Normalized 0-1 position of the handle
  *   setPaintRoutine        Renders dot grid with glow proximity effect + handle circle
- *   setMouseCallback       Drag to update xValue/yValue, sets Filter.Filter and Gater.Mix
+ *   setMouseCallback       Drag to update xValue/yValue, sets Filter.Filter and Filter.Mix
  *   setX(val) / setY(val)  Programmatic position setters
  *   setXY(x, y)            Set both axes at once
  *   getX() / getY()        Read current position
@@ -19,17 +19,18 @@
  *   setAlphaRange()        Set min/max dot opacity
  *   repaint()              Force repaint
  *
- * @dependencies Synth.getEffect("Filter"/"Gater")
+ * @dependencies Synth.getEffect("Filter"/"Filter")
  * @ui XY_pad
  */
 namespace XYPad {
 
 	const var Filter = Synth.getEffect("Filter");
-	const var Gater = Synth.getEffect("Gater");
     const var XY_pad = Content.getComponent("XY_pad");
+    const var X_knb = Content.getComponent("X_knb");
+    const var Y_knb = Content.getComponent("Y_knb");
 
     const var CONFIG = {
-        dotSize: 8,
+        dotSize: 6,
         gap: 4,
         padding: 4,
         dotColour: 0x88FFFFFF,
@@ -39,9 +40,7 @@ namespace XYPad {
         glowFalloff: 2.0,
         minAlpha: 0.1,
         maxAlpha: 1.0,
-        handleStroke: 2.0,
-        wiggleAmount: 1.5,
-        wiggleSpeed: 0.4
+        handleStroke: 2.0
     };
 
     var xValue = 0.5;
@@ -49,29 +48,6 @@ namespace XYPad {
     var isDragging = false;
     var cols = 0;
     var rows = 0;
-    var wiggleTime = 0.0;
-    var wiggleActive = false;
-    var wiggleIntensity = 0.0;
-    var wiggleFadeStep = 0.08;
-
-    var wigglePhasesX = [];
-    var wigglePhasesY = [];
-    var wiggleInited = false;
-    var wi = 0;
-
-    inline function initWigglePhases(numDots)
-    {
-        wigglePhasesX = [];
-        wigglePhasesY = [];
-
-        for (wi = 0; wi < numDots; wi++)
-        {
-            wigglePhasesX.push(Math.random() * Math.PI * 2.0);
-            wigglePhasesY.push(Math.random() * Math.PI * 2.0);
-        }
-
-        wiggleInited = true;
-    }
 
     inline function clamp(val, lo, hi)
     {
@@ -93,11 +69,6 @@ namespace XYPad {
         cols = Math.floor((w - padding * 2 + gapSize) / (dotSize + gapSize));
         rows = Math.floor((h - padding * 2 + gapSize) / (dotSize + gapSize));
 
-        var totalDots = cols * rows;
-
-        if (!wiggleInited || wigglePhasesX.length != totalDots)
-            initWigglePhases(totalDots);
-
         var totalGridW = cols * dotSize + (cols - 1) * gapSize;
         var totalGridH = rows * dotSize + (rows - 1) * gapSize;
         var offsetX = (w - totalGridW) / 2;
@@ -110,9 +81,6 @@ namespace XYPad {
         // Handle position in grid-column/row space
         var handleCol = xValue * (cols - 1);
         var handleRow = yValue * (rows - 1);
-
-        var t = wiggleTime;
-        var wigAmt = CONFIG.wiggleAmount * wiggleIntensity;
 
         for (var row = 0; row < rows; row++)
         {
@@ -127,29 +95,16 @@ namespace XYPad {
                 var dist = Math.sqrt(dx * dx + dy * dy);
 
                 var alpha = CONFIG.minAlpha;
-                var proximity = 0.0;
 
                 if (dist < CONFIG.glowRadius)
                 {
                     var normDist = dist / CONFIG.glowRadius;
                     var falloff = Math.pow(1.0 - normDist, CONFIG.glowFalloff);
                     alpha = CONFIG.minAlpha + falloff * (CONFIG.maxAlpha - CONFIG.minAlpha);
-                    proximity = falloff;
                 }
 
                 g.setColour(Colours.withAlpha(CONFIG.dotColour, alpha));
-
-                if (wiggleIntensity > 0.0 && proximity > 0.0)
-                {
-                    var dotIndex = row * cols + col;
-                    var wx = Math.sin(t + wigglePhasesX[dotIndex]) * wigAmt * proximity;
-                    var wy = Math.cos(t * 0.7 + wigglePhasesY[dotIndex]) * wigAmt * proximity;
-                    g.fillEllipse([x + wx, y + wy, dotSize, dotSize]);
-                }
-                else
-                {
-                    g.fillEllipse([x, y, dotSize, dotSize]);
-                }
+                g.fillEllipse([x, y, dotSize, dotSize]);
             }
         }
 
@@ -165,36 +120,22 @@ namespace XYPad {
         g.drawEllipse([hx, hy, hs, hs], CONFIG.handleStroke);
     });
 
-    XY_pad.setTimerCallback(function()
+    inline function onXKnobControl(component, value)
     {
-        if (wiggleActive && wiggleIntensity < 1.0)
-        {
-            wiggleIntensity = clamp(wiggleIntensity + wiggleFadeStep, 0.0, 1.0);
-        }
-        else if (!wiggleActive && wiggleIntensity > 0.0)
-        {
-            wiggleIntensity = clamp(wiggleIntensity - wiggleFadeStep, 0.0, 1.0);
-
-            if (wiggleIntensity <= 0.0)
-            {
-                this.stopTimer();
-            }
-        }
-
-        wiggleTime += CONFIG.wiggleSpeed;
-        this.repaint();
-    });
-
-    inline function startAnimation()
-    {
-        wiggleActive = true;
-        XY_pad.startTimer(40);
+        xValue = component.getValueNormalized();
+        Filter.setAttribute(Filter.Filter, xValue);
+        XY_pad.repaint();
     }
 
-    inline function stopAnimation()
+    inline function onYKnobControl(component, value)
     {
-        wiggleActive = false;
+        yValue = 1.0 - component.getValueNormalized();
+        Filter.setAttribute(Filter.Mix, (1.0 - yValue) * 100.0);
+        XY_pad.repaint();
     }
+
+    X_knb.setControlCallback(onXKnobControl);
+    Y_knb.setControlCallback(onYKnobControl);
 
     XY_pad.setMouseCallback(function(event)
     {
@@ -214,6 +155,17 @@ namespace XYPad {
         var offsetX = (w - totalGridW) / 2;
         var offsetY = (h - totalGridH) / 2;
 
+        if (event.doubleClick)
+        {
+            xValue = 0.5;
+            yValue = 0.5;
+            X_knb.setValueNormalized(0.5);
+            X_knb.changed();
+            Y_knb.setValueNormalized(0.5);
+            Y_knb.changed();
+            return;
+        }
+
         if (event.clicked)
         {
             isDragging = true;
@@ -229,11 +181,10 @@ namespace XYPad {
             xValue = clamp((event.x - offsetX - dotSize * 0.5) / (totalGridW - dotSize), 0.0, 1.0);
             yValue = clamp((event.y - offsetY - dotSize * 0.5) / (totalGridH - dotSize), 0.0, 1.0);
 
-            Filter.setAttribute(Filter.Filter, xValue);
-            Gater.setAttribute(Gater.Mix, (1.0 - yValue) * 100.0);
-
-            this.repaint();
-            this.changed();
+            X_knb.setValueNormalized(xValue);
+            X_knb.changed();
+            Y_knb.setValueNormalized(1.0 - yValue);
+            Y_knb.changed();
         }
     });
 

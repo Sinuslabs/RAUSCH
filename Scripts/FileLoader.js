@@ -35,53 +35,32 @@ namespace FileLoader {
 	const var Next_iconBtn = Content.getComponent("Next_iconBtn");
 	const var Prev_iconBtn = Content.getComponent("Prev_iconBtn");
 
-	// --- Categories (auto-discovered from AudioFiles subfolders) ---
-	const var audioFolder = FileSystem.getFolder(FileSystem.AudioFiles);
-
-	inline function discoverCategories()
-	{
-		local result = [];
-		local children = FileSystem.findFiles(audioFolder, "*", false);
-
-		for (child in children)
-		{
-			if (child.isDirectory())
-				result.push(child.toString(child.Filename));
-		}
-
-		return result;
-	}
-
-	const var categories = discoverCategories();
-
-	// Flat lookup: maps "Category::DisplayName" -> File reference
+	// Flat lookup: maps "Category::DisplayName" -> "{PROJECT_FOLDER}..." path
 	reg fileMap = {};
 
-	// --- Build categorised menu items & file map ---
+	// --- Build categorised menu items & file map from audio pool ---
 	inline function buildMenuItems()
 	{
 		local items = [];
+		local poolFiles = Engine.loadAudioFilesIntoPool();
 
-		for (c in categories)
+		for (f in poolFiles)
 		{
-			local catFolder = audioFolder.getChildFile(c);
-			if (!catFolder.isDirectory()) continue;
+			// Strip {PROJECT_FOLDER} prefix to get "Category/filename.ext"
+			local relative = f.replace("{PROJECT_FOLDER}", "");
+			local slashIdx = relative.indexOf("/");
+			if (slashIdx < 0) continue;
 
-			local wavFiles = FileSystem.findFiles(catFolder, "*.wav", false);
-			local mp3Files = FileSystem.findFiles(catFolder, "*.mp3", false);
+			local category = relative.substring(0, slashIdx);
+			local filename = relative.substring(slashIdx + 1, relative.length);
 
-			local allFiles = wavFiles;
-			for (m in mp3Files)
-				allFiles.push(m);
+			// Strip extension for display name
+			local dotIdx = filename.lastIndexOf(".");
+			local displayName = dotIdx >= 0 ? filename.substring(0, dotIdx) : filename;
 
-			for (f in allFiles)
-			{
-				local displayName = f.toString(f.NoExtension);
-				local fileName = f.toString(f.Filename);
-				local key = c + "::" + displayName;
-				fileMap[key] = "{PROJECT_FOLDER}" + c + "/" + fileName;
-				items.push(key);
-			}
+			local key = category + "::" + displayName;
+			fileMap[key] = f;
+			items.push(key);
 		}
 
 		return items.join("\n");
@@ -163,6 +142,18 @@ namespace FileLoader {
 		if (value < 1 || value > items.length) return;
 
 		local selectedKey = items[value - 1];
+		local sepIdx = selectedKey.indexOf("::");
+		if (sepIdx >= 0)
+		{
+			local category = selectedKey.substring(0, sepIdx);
+			local name = selectedKey.substring(sepIdx + 2, selectedKey.length);
+			Globals.soundDisplayText = category + " / " + name;
+		}
+		else
+		{
+			Globals.soundDisplayText = selectedKey;
+		}
+
 		if (!isDefined(fileMap[selectedKey])) return;
 
 		local fileRef = fileMap[selectedKey];
@@ -190,7 +181,7 @@ namespace FileLoader {
 
 		// Load into the INACTIVE player, then crossfade
 		if (activePlayer == 1)
-		{	Engine.loadAudioFilesIntoPool();
+		{	
 			AudioLoopPlayer2.setFile(fileRef);
 			fadeTarget = 2;
 		}
@@ -203,6 +194,7 @@ namespace FileLoader {
 		fadeProgress = 0.0;
 		isFading = true;
 		crossfadeTimer.startTimer(FADE_TIME_MS);
+		SoundSelector_cmb.sendRepaintMessage();
 	}
 
 	// --- Next / Prev Navigation ---

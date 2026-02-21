@@ -4,8 +4,7 @@
   <Node FactoryPath="container.chain" ID="Gater" Bypassed="0" Name="Gater"
         ShowParameters="1">
     <Nodes>
-      <Node ID="modchain" FactoryPath="container.modchain" Bypassed="0" Name="modchain"
-            Folded="1">
+      <Node ID="modchain" FactoryPath="container.modchain" Bypassed="0" Name="modchain">
         <Nodes>
           <Node ID="oscillator" FactoryPath="core.oscillator" Bypassed="0" Name="oscillator">
             <ComplexData>
@@ -34,6 +33,7 @@
           <Node ID="peak" FactoryPath="core.peak" Bypassed="0" Name="peak">
             <ModulationTargets>
               <Connection NodeId="minmax" ParameterId="Value"/>
+              <Connection NodeId="public_mod" ParameterId="Value"/>
             </ModulationTargets>
             <ComplexData>
               <DisplayBuffers>
@@ -110,6 +110,12 @@
                      ID="Smoothness" DefaultValue="5.0" Automated="1"/>
         </Parameters>
         <SwitchTargets/>
+      </Node>
+      <Node ID="public_mod" FactoryPath="routing.public_mod" Bypassed="0"
+            Name="public_mod">
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+        </Parameters>
       </Node>
     </Nodes>
     <Parameters>

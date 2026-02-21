@@ -6,8 +6,8 @@
   <Description value=""/>
   <BundleIdentifier value="com.Sinuslabs.rausch"/>
   <PluginCode value="Raus"/>
-  <EmbedAudioFiles value="Yes"/>
-  <EmbedImageFiles value="Yes"/>
+  <EmbedAudioFiles value="0"/>
+  <EmbedImageFiles value="1"/>
   <SupportFullDynamicsHLAC value="No"/>
   <AdditionalDspLibraries value=""/>
   <OSXStaticLibs value=""/>

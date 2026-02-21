@@ -4,16 +4,35 @@
   <Node FactoryPath="container.chain" ID="Crush" Bypassed="0" Name="Crush"
         ShowParameters="1">
     <Nodes>
+      <Node ID="minmax1" FactoryPath="control.minmax" Bypassed="0" Name="minmax1">
+        <ModulationTargets>
+          <Connection NodeId="DeRez3" ParameterId="Rate"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Minimum" Value="0.3211192626953125"
+                     DefaultValue="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Maximum" Value="0.88367626953125"
+                     DefaultValue="1.0"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                     ID="Skew" Value="1.692504685728652" DefaultValue="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="1.0"
+                     DefaultValue="0.0"/>
+        </Parameters>
+      </Node>
       <Node ID="minmax" FactoryPath="control.minmax" Bypassed="0" Name="minmax">
         <ModulationTargets>
           <Connection NodeId="DeRez3" ParameterId="Rez"/>
         </ModulationTargets>
         <Parameters>
           <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
-          <Parameter MinValue="0.0" MaxValue="1.0" ID="Minimum" Value="0.0"/>
-          <Parameter MinValue="0.0" MaxValue="1.0" ID="Maximum" Value="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Minimum" Value="0.07046875"
+                     DefaultValue="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Maximum" Value="0.552453125"
+                     DefaultValue="1.0"/>
           <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
-                     ID="Skew" Value="1.0"/>
+                     ID="Skew" Value="0.6389766824645903" DefaultValue="1.0"/>
           <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
           <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="1.0"
                      DefaultValue="0.0"/>
@@ -43,7 +62,7 @@
                   </SwitchTarget>
                 </SwitchTargets>
                 <Parameters>
-                  <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Value="0.0"/>
+                  <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" DefaultValue="0.0"/>
                 </Parameters>
               </Node>
               <Node ID="dry_gain" FactoryPath="core.gain" Bypassed="0" Name="dry_gain"
@@ -51,7 +70,7 @@
                 <Parameters>
                   <Parameter MinValue="-100.0" MaxValue="0.0" StepSize="0.1000000014901161"
                              SkewFactor="5.422270774841309" ID="Gain" TextToValueConverter="Decibel"
-                             Value="0.0"/>
+                             DefaultValue="0.0"/>
                   <Parameter MinValue="0.0" MaxValue="1000.0" StepSize="0.1000000014901161"
                              SkewFactor="0.3010300099849701" ID="Smoothing" TextToValueConverter="Time"
                              Value="20.0"/>
@@ -77,7 +96,7 @@
                 <Parameters>
                   <Parameter MinValue="-100.0" MaxValue="0.0" StepSize="0.1000000014901161"
                              SkewFactor="5.422270774841309" ID="Gain" TextToValueConverter="Decibel"
-                             Value="0.0"/>
+                             DefaultValue="0.0"/>
                   <Parameter MinValue="0.0" MaxValue="1000.0" StepSize="0.1000000014901161"
                              SkewFactor="0.3010300099849701" ID="Smoothing" TextToValueConverter="Time"
                              Value="20.0"/>
@@ -101,19 +120,19 @@
     </Nodes>
     <Parameters>
       <Parameter ID="Mix" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
-                 DefaultValue="" Value="0.503918212890625">
+                 DefaultValue="" Value="1.0">
         <Connections>
           <Connection NodeId="dry_wet1" ParameterId="DryWet"/>
         </Connections>
       </Parameter>
       <Parameter ID="Rate" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
-                 DefaultValue="" Value="0.7916402587890625">
+                 DefaultValue="" Value="0.502352783203125">
         <Connections>
-          <Connection NodeId="DeRez3" ParameterId="Rate"/>
+          <Connection NodeId="minmax1" ParameterId="Value"/>
         </Connections>
       </Parameter>
       <Parameter ID="Rez" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
-                 DefaultValue="" Value="0.315386962890625">
+                 DefaultValue="" Value="0.438421875">
         <Connections>
           <Connection NodeId="minmax" ParameterId="Value"/>
         </Connections>

@@ -16,3 +16,5 @@
 *.wav
 *.mp3
 *.flac
+.env
+/Packaging/*
