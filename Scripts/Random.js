@@ -6,9 +6,9 @@
  *
  * @outline
  *   Random_btn           Dice-style button triggering randomization
- *   Filter / Gater       DSP effect references updated during transition
+ *   Filter / Filter       DSP effect references updated during transition
  *   KNOB_PARAMS          Config array: id, min, max, bias, strength per knob
- *   XY_CONFIG            X/Y axis bias config for XYPad
+ *   XY_CONFIG            X/Y axis bias config for SpotlightXY
  *   TEMPO_CONFIG         Tempo bias config for Motion segment selector
  *   TRANSITION_*         Timer interval, step count, increment for smooth lerp
  *   biasedRandom()       Generates value clustered around a bias point
@@ -18,7 +18,7 @@
  *   randomRoutine()      Custom paint: 3x3 grid of randomly sized dots (dice icon)
  *   setMouseCallback     Triggers randomize() on mouse-up
  *
- * @dependencies XYPad, Motion, FileLoader, Theme, Synth.getEffect("Filter"/"Gater")
+ * @dependencies SpotlightXY, Motion, FileLoader, Theme, Synth.getEffect("Filter"/"Filter")
  * @ui Random_btn
  */
 namespace Random {
@@ -27,7 +27,10 @@ namespace Random {
 
 	// DSP references
 	const var Filter = Synth.getEffect("Filter");
-	const var Gater = Synth.getEffect("Gater");
+	
+	const var SpotlightXY = Content.getComponent("XY_pad");
+	
+	
 
 	// ─── Randomization Config ───────────────────────────────────────
 	// Each entry: id, min, max, bias (0-1 normalized target), strength (1=uniform, higher=tighter)
@@ -40,16 +43,15 @@ namespace Random {
 	const var KNOB_PARAMS = [
 		{ "id": "Rate_defaultKnb", "min": 0.1, "max": 0.9, "bias": 0.5, "strength": 1.5 },
 		{ "id": "Mix_defaultKnb", "min": 0.0, "max": 0.7, "bias": 0.3, "strength": 2.0 },
-		{ "id": "Volyme_RingKnb", "min": 0.2, "max": 0.8, "bias": 0.5, "strength": 1.0 },
 		{ "id": "Rez_defaultKnb", "min": 0.18, "max": 0.8, "bias": 0.4, "strength": 2.5 }
 	];
 
 	const var XY_CONFIG = {
 		"x": { "min": 0.1, "max": 0.9, "bias": 0.5, "strength": 1.5 },
-		"y": { "min": 0.0, "max": 0.8, "bias": 0.3, "strength": 2.0 }
+		"y": { "min": 0.0, "max": 0.8, "bias": 0.2, "strength": 2.0 }
 	};
 
-	const var TEMPO_CONFIG = { "min": 0, "max": 15, "bias": 0.2, "strength": 2.0 };
+	const var TEMPO_CONFIG = { "min": 0, "max": 15, "bias": 0.7, "strength": 2.5 };
 
 	// ─── Transition Config ──────────────────────────────────────────
 	const TRANSITION_TIME_MS = 15;  // timer interval in ms
@@ -108,14 +110,14 @@ namespace Random {
 		var currentX = xyStartX + t * (xyTargetX - xyStartX);
 		var currentY = xyStartY + t * (xyTargetY - xyStartY);
 
-		XYPad.setXY(currentX, currentY);
+		SpotlightXY.setXY(currentX, currentY);
 		Filter.setAttribute(Filter.Filter, currentX);
-		Gater.setAttribute(Gater.Mix, (1.0 - currentY) * 100.0);
+		Filter.setAttribute(Filter.Mix, (1.0 - currentY) * 100.0);
 
 		// Interpolate Tempo
 		var currentTempo = Math.round(tempoStart + t * (tempoTarget - tempoStart));
 		Motion.setValue(currentTempo);
-		Gater.setAttribute(Gater.Tempo, currentTempo);
+		Filter.setAttribute(Filter.Tempo, currentTempo);
 	});
 
 	// ─── Biased Random ──────────────────────────────────────────────
@@ -149,8 +151,8 @@ namespace Random {
 		}
 
 		// Capture current XY position as start, generate targets
-		xyStartX = XYPad.getX();
-		xyStartY = XYPad.getY();
+		xyStartX = SpotlightXY.getX();
+		xyStartY = SpotlightXY.getY();
 
 		local xCfg = XY_CONFIG.x;
 		local yCfg = XY_CONFIG.y;
@@ -187,6 +189,7 @@ namespace Random {
 		local bigSize = Math.min(cellWidth, cellHeight) * 0.8;
 
 		local COLOUR = TC.Display.on_display;
+		COLOUR = Colours.withAlpha(COLOUR, 0.8);
 
 		if (this.data.mouseDown)
 			COLOUR = Colours.withAlpha(COLOUR, 0.6);

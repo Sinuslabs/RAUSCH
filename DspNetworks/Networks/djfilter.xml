@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Network ID="djfilter" AllowCompilation="1" AllowPolyphonic="1" Version="0.0.0">
+  <Node FactoryPath="container.chain" ID="djfilter" Bypassed="0" ShowParameters="1"
+        Name="djfilter">
+    <Nodes>
+      <Node ID="xfader" FactoryPath="control.xfader" Bypassed="0" Name="xfader">
+        <Properties>
+          <Property ID="NumParameters" Value="2"/>
+          <Property ID="Mode" Value="Overlap"/>
+        </Properties>
+        <SwitchTargets>
+          <SwitchTarget>
+            <Connections>
+              <Connection NodeId="minmax" ParameterId="Value"/>
+              <Connection NodeId="minmax3" ParameterId="Value"/>
+            </Connections>
+          </SwitchTarget>
+          <SwitchTarget>
+            <Connections>
+              <Connection NodeId="minmax1" ParameterId="Value"/>
+              <Connection NodeId="minmax2" ParameterId="Value"/>
+            </Connections>
+          </SwitchTarget>
+        </SwitchTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1" DefaultValue="0.25420963955781"/>
+        </Parameters>
+      </Node>
+      <Node ID="minmax2" FactoryPath="control.minmax" Bypassed="0" Name="minmax2">
+        <ModulationTargets>
+          <Connection NodeId="svf" ParameterId="Q"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Minimum" Value="0.8267530517578126"
+                     DefaultValue="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="8.0" ID="Maximum" Value="3.955756835937501"
+                     DefaultValue="1.0"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                     ID="Skew" Value="1.144369289529429" DefaultValue="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="1.0"
+                     DefaultValue="0.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="minmax3" FactoryPath="control.minmax" Bypassed="0" Name="minmax3">
+        <ModulationTargets>
+          <Connection NodeId="svf1" ParameterId="Q"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Minimum" Value="1.0" DefaultValue="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="8.0" ID="Maximum" Value="5.3294267578125"
+                     DefaultValue="1.0"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                     ID="Skew" Value="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="1.0"
+                     DefaultValue="0.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="minmax" FactoryPath="control.minmax" Bypassed="0" Name="minmax">
+        <ModulationTargets>
+          <Connection NodeId="svf1" ParameterId="Frequency"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" Automated="1" DefaultValue="0.1204613037109375"/>
+          <Parameter MinValue="20.0" MaxValue="20000.0" SkewFactor="0.2299045584686382"
+                     ID="Minimum" Value="20.52181585415225" DefaultValue="20.0"/>
+          <Parameter MinValue="20.0" MaxValue="20000.0" SkewFactor="0.2299045584686382"
+                     ID="Maximum" DefaultValue="20000.0" Automated="1"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                     ID="Skew" Value="0.4296841305622687" DefaultValue="0.2299045584686382"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="1.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="minmax1" FactoryPath="control.minmax" Bypassed="0" Name="minmax1">
+        <ModulationTargets>
+          <Connection NodeId="svf" ParameterId="Frequency"/>
+        </ModulationTargets>
+        <Parameters>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Value" TextToValueConverter="NormalizedPercentage"
+                     Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="20000.0" ID="Minimum" TextToValueConverter="Frequency"
+                     DefaultValue="0.0" Automated="1"/>
+          <Parameter MinValue="0.0" MaxValue="20000.0" ID="Maximum" TextToValueConverter="Frequency"
+                     Value="17766.875" DefaultValue="1.0"/>
+          <Parameter MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                     ID="Skew" Value="0.1390054991988542" DefaultValue="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" ID="Step" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Polarity" Value="0.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="svf1" FactoryPath="filters.svf" Bypassed="0" Name="svf1">
+        <ComplexData>
+          <Filters>
+            <Filter Index="-1" EmbeddedData=""/>
+          </Filters>
+        </ComplexData>
+        <Parameters>
+          <Parameter MinValue="20.0" MaxValue="20000.0" SkewFactor="0.2299045622348785"
+                     ID="Frequency" Automated="1" DefaultValue="1000.0"/>
+          <Parameter MinValue="0.300000011920929" MaxValue="9.899999618530273" SkewFactor="0.2647178173065186"
+                     ID="Q" DefaultValue="1.0" Automated="1"/>
+          <Parameter MinValue="-18.0" MaxValue="18.0" ID="Gain" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="0.3010300099849701"
+                     ID="Smoothing" Value="0.009999999776482582"/>
+          <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Value="1.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+        </Parameters>
+      </Node>
+      <Node ID="svf" FactoryPath="filters.svf" Bypassed="0" Name="svf">
+        <ComplexData>
+          <Filters>
+            <Filter Index="-1" EmbeddedData=""/>
+          </Filters>
+        </ComplexData>
+        <Parameters>
+          <Parameter MinValue="20.0" MaxValue="20000.0" SkewFactor="0.2299045622348785"
+                     ID="Frequency" Automated="1" DefaultValue="1000.0"/>
+          <Parameter MinValue="0.300000011920929" MaxValue="9.899999618530273" SkewFactor="0.2647178173065186"
+                     ID="Q" DefaultValue="1.0" Automated="1"/>
+          <Parameter MinValue="-18.0" MaxValue="18.0" ID="Gain" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="0.3010300099849701"
+                     ID="Smoothing" Value="0.009999999776482582"/>
+          <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Value="0.0"/>
+          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+        </Parameters>
+      </Node>
+    </Nodes>
+    <Parameters>
+      <Parameter ID="DJFilter" MinValue="0.0" MaxValue="1.0" Value="0.4977338402789571"
+                 DefaultValue="0.4983880615234375">
+        <Connections>
+          <Connection NodeId="xfader" ParameterId="Value"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Min" MinValue="0.0" MaxValue="20000.0" ModColour="0" ExternalModulation="Disabled"
+                 DefaultValue="" TextToValueConverter="Frequency" Value="276.131591796875">
+        <Connections>
+          <Connection NodeId="minmax1" ParameterId="Minimum"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Max" MinValue="20.0" MaxValue="20000.0" SkewFactor="0.2299045584686382"
+                 ModColour="0" ExternalModulation="Disabled" DefaultValue="" TextToValueConverter=""
+                 Value="2568.715978928611">
+        <Connections>
+          <Connection NodeId="minmax" ParameterId="Maximum"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="Steepnes" MinValue="0.1000000014901161" MaxValue="10.0" SkewFactor="0.2890648245811462"
+                 ModColour="0" ExternalModulation="Disabled" DefaultValue="" TextToValueConverter=""
+                 Value="0.2099162169126627">
+        <Connections/>
+      </Parameter>
+    </Parameters>
+  </Node>
+</Network>

@@ -3,7 +3,10 @@
 	const routes = Content.getAllComponents('_Route');
 	const routerBtns = Content.getAllComponents('_router');
 
-	const var bgImage = Content.getComponent("bg");
+	const var bgImage = Content.getComponent("Background");
+	bgImage.loadImage("{PROJECT_FOLDER}Assets/v3.png", "main");
+	bgImage.loadImage("{PROJECT_FOLDER}Assets/about.png", "about");
+	bgImage.setImage("main", 0, 0);
 
 	inline function on_routerBtn(component, value) {
 		if (value) {
@@ -20,10 +23,6 @@
 			Router.goTo(component.get('text'));
 		}
 	};
-	
-	
-    Engine.loadImageIntoPool('{PROJECT_FOLDER}Assets/v3.png');
-    Engine.loadImageIntoPool('{PROJECT_FOLDER}Assets/about.png');
 
 
 	reg currentRoute = 'Main';
@@ -38,19 +37,18 @@
 		});
 	}
 
-	Engine.loadImageIntoPool('filename');
-	
 	inline function goTo(goToRoute) {
-		
+
 		local toRoute = goToRoute;
 
 		if (!toRoute) return;
-		
+
 		if (toRoute == 'Main') {
-			bgImage.set('fileName', '{PROJECT_FOLDER}Assets/v3.png');
+			bgImage.setImage("main", 0, 0);
+			SpotlightXY.stopAnimation();
 		} else {
-		
-			bgImage.set('fileName', '{PROJECT_FOLDER}Assets/about.png');
+			bgImage.setImage("about", 0, 0);
+			SpotlightXY.startAnimation();
 		}
 
 		if (toRoute == 'back') {

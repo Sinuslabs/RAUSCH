@@ -24,7 +24,7 @@ namespace OldCombo_LAF {
     const var CONFIG = {
         // Layout
         padding: 4,
-        borderRadius: 3,
+        borderRadius: 1,
         borderWidth: 0,
 
         // Font
@@ -37,14 +37,14 @@ namespace OldCombo_LAF {
 
         // Alpha
         hoverAlpha: 1.0,
-        defaultAlpha: 0.7,
+        defaultAlpha: 0.9,
         disabledAlpha: 0.35,
 
         // Popup
         popupBorderRadius: 4,
-        popupItemHeight: 48,
-        popupItemPadding: 10,
-        popupItemFontSize: 16,
+        popupItemHeight: 62,
+        popupItemPadding: 14,
+        popupItemFontSize: 18,
         popupHighlightAlpha: 0.15,
         popupTickedAlpha: 1.0,
         popupSeparatorHeight: 1
@@ -74,7 +74,11 @@ namespace OldCombo_LAF {
         g.setFont(Theme.Regular, CONFIG.fontSize);
 
         local textArea = [CONFIG.padding, 0, w - CONFIG.padding * 2, h];
-        g.drawAlignedText(obj.text, textArea, "left");
+        local displayText = obj.text;
+
+        displayText = obj.text;
+
+        g.drawAlignedText(displayText, textArea, "left");
     }
 
     // --- Popup Background ---

@@ -1,23 +1,23 @@
 /**
  * @file Motion.js
- * @description Tempo/gater step selector rendered as a horizontal segmented bar.
+ * @description Tempo/Filter step selector rendered as a horizontal segmented bar.
  *   Draws 16 segments on "Tempo_pnl" that shrink left-to-right. Click or drag
- *   to select a segment, which sets the Gater effect's Tempo parameter.
+ *   to select a segment, which sets the Filter effect's Tempo parameter.
  *
  * @outline
  *   Tempo_pnl            Panel hosting the segmented bar
- *   Gater                DSP effect receiving Tempo attribute changes
+ *   Filter                DSP effect receiving Tempo attribute changes
  *   CONFIG               numSegments, maxSegmentRatio, minSegmentRatio, gap, padding, alpha values
  *   currentValue         Currently selected segment index (0-15)
  *   getSegmentRatio()    Returns width ratio for a segment (wider on left, narrower on right)
  *   getTotalRatio()      Sum of all segment ratios (for proportional sizing)
  *   setPaintRoutine      Draws segments with active/inactive states using Theme colors
- *   setMouseCallback     Click/drag to select segment, updates Gater.Tempo
+ *   setMouseCallback     Click/drag to select segment, updates Filter.Tempo
  *   getValue()           Returns current segment index
  *   setValue(val)         Programmatically set segment index
  *   repaint()            Force repaint of the panel
  *
- * @dependencies Theme (colors), Synth.getEffect("Gater")
+ * @dependencies Theme (colors), Synth.getEffect("Filter")
  * @ui Tempo_pnl
  */
 namespace Motion {
@@ -29,7 +29,8 @@ namespace Motion {
 
 	const var Tempo_pnl = Content.getComponent("Tempo_pnl");
 	const var Tempo_lbl = Content.getComponent("Tempo_lbl");
-	const var Gater = Synth.getEffect("Gater");
+	const var Tempo_knb = Content.getComponent("Tempo_knb");
+	const var Filter = Synth.getEffect("Filter");
 
 	const var CONFIG = {
 		numSegments: 16,
@@ -111,7 +112,7 @@ namespace Motion {
 
 		var colour = Theme.THEME.Colors.Display.on_display;
 
-		var mix = Gater.getAttribute(Gater.Mix);
+		var mix = Filter.getAttribute(Filter.Mix);
 		var mixNorm = mix / 100.0;
 
 		for (i = 0; i < CONFIG.numSegments; i++) {
@@ -162,7 +163,8 @@ namespace Motion {
 
 				if (event.x >= xOffset && event.x < xOffset + segW) {
 					currentValue = i;
-					Gater.setAttribute(Gater.Tempo, i);
+					Tempo_knb.setValue(i);
+					Tempo_knb.changed();
 					Tempo_lbl.set("text", Engine.getTempoName(currentValue));
 					updateAnimationSpeed();
 					this.repaint();
@@ -175,12 +177,23 @@ namespace Motion {
 		}
 	});
 
+	// Sync UI when Tempo_knb is changed via DAW automation
+	Tempo_knb.setControlCallback(onTempo);
+	 inline function onTempo(component, value) {
+		currentValue = Math.round(value);
+		Tempo_lbl.set("text", Engine.getTempoName(currentValue));
+		updateAnimationSpeed();
+		Tempo_pnl.repaint();
+		Filter.setAttribute(Filter.Tempo, currentValue);
+	}
+
 	inline function getValue() {
 		return currentValue;
 	}
 
 	inline function setValue(val) {
 		currentValue = Math.max(0, Math.min(CONFIG.numSegments - 1, val));
+		Tempo_knb.setValue(currentValue);
 		Tempo_pnl.repaint();
 	}
 

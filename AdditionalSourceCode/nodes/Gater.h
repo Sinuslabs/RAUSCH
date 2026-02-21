@@ -24,8 +24,14 @@ using pma_unscaled_t = control::pma_unscaled<NV,
 template <int NV>
 using minmax_t = control::minmax<NV, 
                                  parameter::plain<pma_unscaled_t<NV>, 2>>;
+
 template <int NV>
-using peak_t = wrap::mod<parameter::plain<minmax_t<NV>, 0>, 
+using peak_mod = parameter::chain<ranges::Identity, 
+                                  parameter::plain<minmax_t<NV>, 0>, 
+                                  parameter::plain<routing::public_mod, 0>>;
+
+template <int NV>
+using peak_t = wrap::mod<peak_mod<NV>, 
                          wrap::no_data<core::peak>>;
 using oscilloscope_t = wrap::no_data<analyse::oscilloscope>;
 
@@ -68,11 +74,13 @@ using Gater_t_ = container::chain<Gater_t_parameters::Gater_t_plist<NV>,
                                   wrap::fix<2, modchain_t<NV>>, 
                                   tempo_sync_t<NV>, 
                                   pma_unscaled_t<NV>, 
-                                  project::Faust_Gater<NV>>;
+                                  project::Faust_Gater<NV>, 
+                                  routing::public_mod>;
 
 // =================================| Root node initialiser class |=================================
 
-template <int NV> struct instance: public Gater_impl::Gater_t_<NV>
+template <int NV> struct instance:  public Gater_impl::Gater_t_<NV>,
+                                    public routing::public_mod_target
 {
 	
 	struct metadata
@@ -114,6 +122,7 @@ template <int NV> struct instance: public Gater_impl::Gater_t_<NV>
 		auto& tempo_sync = this->getT(1);           // Gater_impl::tempo_sync_t<NV>
 		auto& pma_unscaled = this->getT(2);         // Gater_impl::pma_unscaled_t<NV>
 		auto& faust = this->getT(3);                // project::Faust_Gater<NV>
+		auto& public_mod = this->getT(4);           // routing::public_mod
 		
 		// Parameter Connections -------------------------------------------------------------------
 		
@@ -128,7 +137,12 @@ template <int NV> struct instance: public Gater_impl::Gater_t_<NV>
 		pma_unscaled.getWrappedObject().getParameter().connectT(0, faust);  // pma_unscaled -> faust::GateTime
 		minmax.getWrappedObject().getParameter().connectT(0, pma_unscaled); // minmax -> pma_unscaled::Add
 		peak.getParameter().connectT(0, minmax);                            // peak -> minmax::Value
+		peak.getParameter().connectT(1, public_mod);                        // peak -> public_mod::Value
 		tempo_sync.getParameter().connectT(0, pma_unscaled);                // tempo_sync -> pma_unscaled::Value
+		
+		// Public Mod Connection -------------------------------------------------------------------
+		
+		public_mod.connect(*this);
 		
 		// Default Values --------------------------------------------------------------------------
 		
@@ -160,6 +174,8 @@ template <int NV> struct instance: public Gater_impl::Gater_t_<NV>
 		; // faust::GateTime is automated
 		; // faust::Mix is automated
 		; // faust::Smoothness is automated
+		
+		; // public_mod::Value is automated
 		
 		this->setParameterT(0, 4.);
 		this->setParameterT(1, 54.);
