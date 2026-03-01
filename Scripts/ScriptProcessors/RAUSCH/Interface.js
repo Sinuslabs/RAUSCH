@@ -16,15 +16,14 @@ include("UI_Misc.js");
 include("Router.js");
 include("ZoomHandler.js");
 include("Defaulter.js");
+include("Mapping.js");
+include("Logger.js");
 
 Console.stopBenchmark();
 
-const var MadeBy_btn = Content.getComponent("MadeBy_btn");
-MadeBy_btn.setValue(0);
-MadeBy_btn.changed();
-
-
 DotVideo.setGridSize(50, 50);
+
+//Logger.createUI();              // last, so overlay renders on top
 
 
 inline function onButton1Control(component, value) {
