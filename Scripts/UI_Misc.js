@@ -31,7 +31,7 @@ inline function drawMadeByBtn(g, obj) {
 	local textX = logoArea[0] + CONFIG.logoSize + CONFIG.logoTextGap;
 	local textArea = [textX, a[1], a[2] - textX + a[0], a[3]];
 	g.setFontWithSpacing(Theme.Regular, CONFIG.fontSize, CONFIG.fontSpacing);
-	g.drawAlignedText("Sinuslabs v1.0", textArea, "left");
+	g.drawAlignedText("RAUSCH Beta v1", textArea, "left");
 }
 
 const var laf = Content.createLocalLookAndFeel();

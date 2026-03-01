@@ -45,10 +45,11 @@
 
 		if (toRoute == 'Main') {
 			bgImage.setImage("main", 0, 0);
-			SpotlightXY.stopAnimation();
+			DotVideo.stop();
 		} else {
 			bgImage.setImage("about", 0, 0);
-			SpotlightXY.startAnimation();
+			
+						DotVideo.play();
 		}
 
 		if (toRoute == 'back') {

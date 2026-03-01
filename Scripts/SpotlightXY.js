@@ -42,21 +42,34 @@ namespace SpotlightXY {
         maxAlpha: 1.0,
         videoBaseAlpha: 0.0,  // video only visible through spotlight
         negativeRadius: 1.5,  // grid-unit radius around handle forced to opacity 0
-        negativeFade: 1.5     // grid-unit fade zone from 0 back to normal alpha
+        negativeFade: 1.5,    // grid-unit fade zone from 0 back to normal alpha
+        springStiffness: 0.5, // pull-toward-target force per frame (higher = snappier)
+        springDamping: 0.1,  // velocity retention per frame (lower = more overshoot/bounce)
+        handleScaleActive: 1.38,      // handle scale multiplier while clicked/dragged
+        negativeRadiusActive: 2.6,    // negative hole radius while clicked/dragged
+        activeTransitionSpeed: 0.4,  // lerp speed for both (0–1, higher = snappier)
+        frameSpeed: 1.0               // frames advanced per timer tick (lower = slower playback)
     };
 
     var xValue = 0.5;
     var yValue = 0.5;
+    var springX = 0.5;   // visual position — trails target with spring physics
+    var springY = 0.5;
+    var velX = 0.0;
+    var velY = 0.0;
     var isDragging = false;
     var playing = false;
     var currentGlowRadius = 1;
+    var currentHandleScale = 1.0;
+    var currentNegRadius = 1.5;  // matches CONFIG.negativeRadius
 
     // --- Video state ---
     var frames = [];
     var videoCols = 0;
     var videoRows = 0;
     var frameCount = 0;
-    var frameIndex = 0;
+    var framePos = 0.0;  // fractional frame position for sub-frame blending
+    var frameDir = 1;    // 1 = forward, -1 = reverse (ping-pong)
 
     inline function loadData(data) {
         if (isDefined(data.frames)) {
@@ -64,7 +77,7 @@ namespace SpotlightXY {
             videoCols = data.cols;
             videoRows = data.rows;
             frameCount = data.frameCount;
-            frameIndex = 0;
+            framePos = 0.0;
         }
     }
 
@@ -73,9 +86,9 @@ namespace SpotlightXY {
 
     Timer.setTimerCallback(function () {
         if (frameCount > 0) {
-            frameIndex++;
-            if (frameIndex >= frameCount)
-                frameIndex = 0;
+            framePos += frameDir * CONFIG.frameSpeed;
+            if (framePos >= frameCount - 1) { frameDir = -1; framePos = frameCount - 1; }
+            else if (framePos <= 0) { frameDir = 1; framePos = 0.0; }
         }
 
         // Grow glow slowly on note-on, collapse quickly on note-off
@@ -84,6 +97,19 @@ namespace SpotlightXY {
             currentGlowRadius = Math.min(currentGlowRadius + CONFIG.glowGrowStep, glowTarget);
         else if (currentGlowRadius > glowTarget)
             currentGlowRadius = Math.max(currentGlowRadius - CONFIG.glowShrinkStep, glowTarget);
+
+        // Handle scale + negative radius: lerp toward active/idle targets
+        var scaleTarget = isDragging ? CONFIG.handleScaleActive : 1.0;
+        currentHandleScale += (scaleTarget - currentHandleScale) * CONFIG.activeTransitionSpeed;
+
+        var negTarget = isDragging ? CONFIG.negativeRadiusActive : CONFIG.negativeRadius;
+        currentNegRadius += (negTarget - currentNegRadius) * CONFIG.activeTransitionSpeed;
+
+        // Spring physics: visual handle lags behind target with overshoot
+        velX = velX * CONFIG.springDamping + (xValue - springX) * CONFIG.springStiffness;
+        velY = velY * CONFIG.springDamping + (yValue - springY) * CONFIG.springStiffness;
+        springX = springX + velX;
+        springY = springY + velY;
 
         XY_pad.repaint();
     });
@@ -119,26 +145,31 @@ namespace SpotlightXY {
 
         var handleX = offsetX + xValue * (totalGridW - dotSize) + dotSize * 0.5;
         var handleY = offsetY + yValue * (totalGridH - dotSize) + dotSize * 0.5;
-        var handleCol = xValue * (cols - 1);
-        var handleRow = yValue * (rows - 1);
+        var handleCol = springX * (cols - 1);
+        var handleRow = springY * (rows - 1);
 
-        var currentFrame = [];
-        if (frameIndex < frames.length)
-            currentFrame = frames[frameIndex];
+        var fi0 = Math.floor(framePos);
+        var fi1 = Math.min(fi0 + 1, frameCount - 1);
+        var blend = framePos - fi0;
+        var frame0 = (fi0 < frames.length) ? frames[fi0] : [];
+        var frame1 = (fi1 < frames.length) ? frames[fi1] : frame0;
 
         for (var row = 0; row < rows; row++) {
             for (var col = 0; col < cols; col++) {
                 var x = offsetX + col * (dotSize + gapSize);
                 var y = offsetY + row * (dotSize + gapSize);
 
-                // Nearest-neighbor sample from video frame
+                // Blended sample between two frames
                 var videoAlpha = 0.0;
-                if (videoCols > 0 && videoRows > 0 && currentFrame.length > 0) {
+                if (videoCols > 0 && videoRows > 0 && frame0.length > 0) {
                     var vc = Math.floor(col * videoCols / cols);
                     var vr = Math.floor(row * videoRows / rows);
                     var vi = vr * videoCols + vc;
-                    if (vi < currentFrame.length)
-                        videoAlpha = currentFrame[vi];
+                    if (vi < frame0.length) {
+                        var v0 = frame0[vi];
+                        var v1 = (frame1.length > vi) ? frame1[vi] : v0;
+                        videoAlpha = v0 + (v1 - v0) * blend;
+                    }
                 }
 
                 // Spotlight glow from handle proximity
@@ -155,10 +186,10 @@ namespace SpotlightXY {
                 finalAlpha = maxf(finalAlpha, CONFIG.minAlpha);
 
                 // Negative glow: punch a transparent hole around the handle
-                if (dist < CONFIG.negativeRadius) {
+                if (dist < currentNegRadius) {
                     finalAlpha = 0.0;
-                } else if (dist < CONFIG.negativeRadius + CONFIG.negativeFade) {
-                    var t = (dist - CONFIG.negativeRadius) / CONFIG.negativeFade;
+                } else if (dist < currentNegRadius + CONFIG.negativeFade) {
+                    var t = (dist - currentNegRadius) / CONFIG.negativeFade;
                     finalAlpha = finalAlpha * t;
                 }
 
@@ -168,7 +199,7 @@ namespace SpotlightXY {
         }
 
         // Draw handle
-        var hs = CONFIG.handleSize;
+        var hs = CONFIG.handleSize * currentHandleScale;
         var hx = handleX - hs * 0.5;
         var hy = handleY - hs * 0.5;
 
@@ -217,6 +248,8 @@ namespace SpotlightXY {
         if (event.doubleClick) {
             xValue = 0.5;
             yValue = 0.5;
+            velX = 0.0;
+            velY = 0.0;
             X_knb.setValueNormalized(0.5);
             X_knb.changed();
             Y_knb.setValueNormalized(0.5);
@@ -268,5 +301,5 @@ namespace SpotlightXY {
 
     // --- Init ---
     loadData(EyesData);
-    Timer.startTimer(Math.max(10, Math.round(1000.0 / 30)));
+    Timer.startTimer(Math.max(10, Math.round(1000.0 / 60)));
 }

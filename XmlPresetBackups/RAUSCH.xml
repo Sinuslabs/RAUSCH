@@ -9,9 +9,12 @@
         <Processor Type="ScriptProcessor" ID="Interface" Bypassed="0">
           <ChildProcessors/>
           <Content>
+            <Control type="ScriptSlider" id="Rate_defaultKnb" value="0.0"/>
+            <Control type="ScriptSlider" id="Mix_defaultKnb" value="0.4000000059604645"/>
+            <Control type="ScriptSlider" id="Rez_defaultKnb" value="0.5"/>
             <Control type="ScriptButton" id="Next_iconBtn" value="0.0"/>
             <Control type="ScriptButton" id="Prev_iconBtn" value="0.0"/>
-            <Control type="ScriptComboBox" id="SoundSelector_cmb" value="4.0"/>
+            <Control type="ScriptComboBox" id="SoundSelector_cmb" value="6.0"/>
             <Control type="ScriptButton" id="Button1" value="0.0"/>
             <Control type="ScriptSlider" id="Volyme_RingKnb" value="0.0"/>
           </Content>
@@ -28,7 +31,7 @@
     <Processor Type="EffectChain" ID="FX" Bypassed="0">
       <ChildProcessors>
         <Processor Type="HardcodedMasterFX" ID="Filter" Bypassed="0" Network="Filter"
-                   Filter="0.5" Tempo="13.0" Mix="50.0" Smooth="34.60000228881836">
+                   Filter="0.5" Tempo="4.0" Mix="50.0" Smooth="34.60000228881836">
           <ChildProcessors>
             <Processor Type="ModulatorChain" ID="P1 Modulation" Bypassed="1" Intensity="1.0">
               <ChildProcessors/>
@@ -58,7 +61,7 @@
           <RoutingMatrix NumSourceChannels="2" Channel0="0" Send0="-1" Channel1="1" Send1="-1"/>
         </Processor>
         <Processor Type="HardcodedMasterFX" ID="DeRez" Bypassed="0" Network="Crush"
-                   Mix="0.5099999904632568" Rate="0.0" Rez="0.449999988079071">
+                   Mix="0.4000000059604645" Rate="0.0" Rez="0.5">
           <ChildProcessors>
             <Processor Type="ModulatorChain" ID="P1 Modulation" Bypassed="1" Intensity="1.0">
               <ChildProcessors/>
@@ -161,8 +164,8 @@
     <Processor Type="AudioLooper" ID="Audio Loop Player2" Bypassed="0" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                SyncMode="1.0" PitchTracking="0.0" LoopEnabled="1.0" RootNote="34.0"
-               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Drones/Drone Loop.flac"
-               min="0" max="1342380" loopStart="0" loopEnd="1342380">
+               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Drones/Space String.flac"
+               min="0" max="3189829" loopStart="0" loopEnd="3189829">
       <ChildProcessors>
         <Processor Type="MidiProcessorChain" ID="Midi Processor" Bypassed="0">
           <ChildProcessors/>

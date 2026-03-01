@@ -51,7 +51,7 @@ namespace Random {
 		"y": { "min": 0.0, "max": 0.8, "bias": 0.2, "strength": 2.0 }
 	};
 
-	const var TEMPO_CONFIG = { "min": 0, "max": 15, "bias": 0.7, "strength": 2.5 };
+	const var TEMPO_CONFIG = { "min": 0, "max": 15, "bias": 0.4, "strength": 2.5 };
 
 	// ─── Transition Config ──────────────────────────────────────────
 	const TRANSITION_TIME_MS = 15;  // timer interval in ms
