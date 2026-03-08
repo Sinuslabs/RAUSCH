@@ -18,3 +18,7 @@
 *.flac
 .env
 /Packaging/*
+!/Packaging/Linux/
+!/Packaging/Linux/**
+!/Packaging/Windows/
+!/Packaging/Windows/**
