@@ -1,0 +1,9 @@
+RAUSCH — End User License Agreement
+
+Copyright (c) Sinuslabs. All rights reserved.
+
+This software is provided for personal and commercial use.
+Redistribution, resale, or reverse engineering is not permitted
+without explicit written consent from Sinuslabs.
+
+By installing this software you agree to these terms.
