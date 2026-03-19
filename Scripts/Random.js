@@ -168,8 +168,8 @@ namespace Random {
 		isTransitioning = true;
 		transitionTimer.startTimer(TRANSITION_TIME_MS);
 
-		// Randomize sound within current category (instant, no lerp)
-		local newIndex = FileLoader.getRandomIndexInCurrentCategory();
+		// Randomize sound globally across all categories (instant, no lerp)
+		local newIndex = FileLoader.getRandomIndexGlobal();
 		FileLoader.SoundSelector_cmb.setValue(newIndex);
 		FileLoader.SoundSelector_cmb.changed();
 	}

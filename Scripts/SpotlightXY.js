@@ -48,7 +48,7 @@ namespace SpotlightXY {
         handleStroke: 2.0,
         glowRadius: 8.0,
         glowFalloff: 1.0,
-        glowGrowStep: 0.093,  // ~10s to reach full radius at 15fps
+        glowGrowStep: 0.25,  // ~10s to reach full radius at 15fps
         glowShrinkStep: 0.7,  // ~0.5s to collapse on release
         minAlpha: 0.03,
         maxAlpha: 1.0,

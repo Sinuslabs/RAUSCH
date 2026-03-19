@@ -14,7 +14,6 @@
             <Control type="ScriptSlider" id="Rez_defaultKnb" value="0.5"/>
             <Control type="ScriptButton" id="Next_iconBtn" value="0.0"/>
             <Control type="ScriptButton" id="Prev_iconBtn" value="0.0"/>
-            <Control type="ScriptComboBox" id="SoundSelector_cmb" value="4.0"/>
             <Control type="ScriptButton" id="Button1" value="0.0"/>
             <Control type="ScriptSlider" id="Volyme_RingKnb" value="0.0"/>
           </Content>
