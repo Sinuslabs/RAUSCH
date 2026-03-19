@@ -139,9 +139,15 @@ namespace FileLoader {
 	inline function onSoundSelectorControl(component, value)
 	{
 		local items = component.get("items").split("\n");
-		if (value < 1 || value > items.length) return;
+		Console.print("onSoundSelectorControl: value=" + value + " items.length=" + items.length);
+		if (value < 1 || value > items.length)
+		{
+			Console.print("onSoundSelectorControl: bailing — value out of range");
+			return;
+		}
 
 		local selectedKey = items[value - 1];
+		Console.print("onSoundSelectorControl: selectedKey=" + selectedKey + " fileMap has key=" + isDefined(fileMap[selectedKey]));
 		local sepIdx = selectedKey.indexOf("::");
 		if (sepIdx >= 0)
 		{
@@ -261,13 +267,32 @@ namespace FileLoader {
 	// --- Init ---
 	setupComboboxItems();
 	reg totalItems = SoundSelector_cmb.get("items").split("\n").length;
+	Console.print("FileLoader init: totalItems = " + totalItems);
 
 	SoundSelector_cmb.setControlCallback(onSoundSelectorControl);
 	Next_iconBtn.setControlCallback(onNavButton);
 	Prev_iconBtn.setControlCallback(onNavButton);
 
-	// Change this to load a different sound on startup (1-based index)
+	// Load default sound directly into Player1 at startup (changed() is blocked during onInit)
 	const DEFAULT_SOUND_INDEX = 34;
-	SoundSelector_cmb.setValue(DEFAULT_SOUND_INDEX);
-	SoundSelector_cmb.changed();
+	if (totalItems > 1)
+	{
+		var defaultItems = SoundSelector_cmb.get("items").split("\n");
+		var defaultKey = defaultItems[DEFAULT_SOUND_INDEX - 1];
+		Console.print("FileLoader: loading default key=" + defaultKey);
+		if (isDefined(fileMap[defaultKey]))
+		{
+			AudioLoopPlayer1.setFile(fileMap[defaultKey]);
+			SoundSelector_cmb.setValue(DEFAULT_SOUND_INDEX);
+			Console.print("FileLoader: default sound loaded into Player1");
+		}
+		else
+		{
+			Console.print("FileLoader: default key not found in fileMap");
+		}
+	}
+	else
+	{
+		Console.print("FileLoader: pool not ready at init, skipping default selection");
+	}
 }

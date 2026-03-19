@@ -112,8 +112,8 @@
     <Processor Type="AudioLooper" ID="Audio Loop Player1" Bypassed="0" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                SyncMode="1.0" PitchTracking="0.0" LoopEnabled="1.0" RootNote="64.0"
-               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Athmosphere/Generator.flac"
-               min="0" max="1349905" loopStart="0" loopEnd="1349905">
+               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Drones/Dew.flac"
+               min="0" max="938967" loopStart="0" loopEnd="938967">
       <ChildProcessors>
         <Processor Type="MidiProcessorChain" ID="Midi Processor" Bypassed="0">
           <ChildProcessors/>
@@ -137,7 +137,7 @@
         </Processor>
         <Processor Type="EffectChain" ID="FX" Bypassed="0">
           <ChildProcessors>
-            <Processor Type="SimpleGain" ID="Gain1" Bypassed="0" Gain="-100.0" Delay="0.0"
+            <Processor Type="SimpleGain" ID="Gain1" Bypassed="0" Gain="0.0" Delay="0.0"
                        Width="100.0" Balance="0.0" InvertPolarity="0.0">
               <ChildProcessors>
                 <Processor Type="ModulatorChain" ID="Gain Modulation" Bypassed="0" Intensity="1.0">
@@ -163,8 +163,8 @@
     <Processor Type="AudioLooper" ID="Audio Loop Player2" Bypassed="0" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                SyncMode="1.0" PitchTracking="0.0" LoopEnabled="1.0" RootNote="34.0"
-               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Athmosphere/Generator.flac"
-               min="0" max="1349905" loopStart="0" loopEnd="1349905">
+               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Drones/Dew.flac"
+               min="0" max="938967" loopStart="0" loopEnd="938967">
       <ChildProcessors>
         <Processor Type="MidiProcessorChain" ID="Midi Processor" Bypassed="0">
           <ChildProcessors/>
@@ -188,7 +188,7 @@
         </Processor>
         <Processor Type="EffectChain" ID="FX" Bypassed="0">
           <ChildProcessors>
-            <Processor Type="SimpleGain" ID="Gain2" Bypassed="0" Gain="0.0" Delay="0.0"
+            <Processor Type="SimpleGain" ID="Gain2" Bypassed="0" Gain="-100.0" Delay="0.0"
                        Width="100.0" Balance="0.0" InvertPolarity="0.0">
               <ChildProcessors>
                 <Processor Type="ModulatorChain" ID="Gain Modulation" Bypassed="0" Intensity="1.0">
