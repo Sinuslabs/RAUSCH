@@ -16,6 +16,8 @@
                  width="60" height="87" text="Crush" tooltip="Crush the signal"
                  mode="NormalizedPercentage" suffix="%" middlePosition="0.5" pluginParameterName="Crush"
                  defaultValue="0.5" isPluginParameter="1"/>
+      <Component type="ScriptPanel" id="XY_pad_overlay" x="8" y="38" width="320"
+                 height="170" bgColour="0" parentComponent="Main_Route"/>
       <Component type="ScriptPanel" id="XY_pad" x="8" y="38" width="320" height="170"
                  allowCallbacks="All Callbacks" parentComponent="Main_Route" popupOnRightClick="0"
                  tooltip="Filter + Motion Control"/>
@@ -28,15 +30,15 @@
       <Component type="ScriptComboBox" id="SoundSelector_cmb" x="40" y="5" parentComponent="Main_Route"
                  width="210" height="40" itemColour="1725158355" itemColour2="4222463405"
                  textColour="4286611584" text="ComboBox1_cmb" useCustomPopup="1"
-                 items="Drones::Cable Car Drone&#10;Drones::Casio Drone&#10;Drones::Dark Apostasy&#10;Drones::Drone Loop&#10;Drones::Humming in A Minor&#10;Drones::Space String&#10;Drones::Sunform Drone&#10;Glitch::Circuit Bend&#10;Glitch::Granite Spitting&#10;Glitch::Sci-Fi Glitch&#10;Natural::Birds&#10;Natural::Forest Birds&#10;Natural::Forest Stream&#10;Natural::Shining Dew&#10;Noises::Fan Ventilator&#10;Noises::Hard Drives&#10;Noises::Machine&#10;Noises::Train&#10;Noises::Vinyl Noise&#10;Noises::Vinyl Record&#10;Noises::Wind Turbine&#10;Other::Friend Face&#10;Other::Ribcage Wall&#10;Space::Ambient Texture&#10;Space::Haunted Hall&#10;Space::Industrial Basement&#10;Space::Oppressive Theme&#10;Space::Sci-Fi Ambient 1&#10;Space::Spaceship Interior"
-                 tooltip="Select Sound" max="29"/>
+                 items="Athmosphere::Basement&#10;Athmosphere::Cable Car&#10;Athmosphere::Corrupt&#10;Athmosphere::Generator&#10;Athmosphere::Granite Spitting&#10;Athmosphere::HALO&#10;Athmosphere::Industrial&#10;Athmosphere::Interstellar&#10;Athmosphere::Windscreen&#10;City::City Rain&#10;City::Escalator&#10;City::Folk Drums&#10;City::Funeral Van&#10;City::HK Airport&#10;City::HK Ambiance&#10;City::Market News&#10;City::Market&#10;City::Metro&#10;City::Streetcar&#10;City::Underpass&#10;Drones::Alien Soundscape&#10;Drones::Alien Wind&#10;Drones::Casio&#10;Drones::Circuit Bend&#10;Drones::Coordinates&#10;Drones::Dark Apostasy&#10;Drones::Dark SciFi&#10;Drones::Dew&#10;Drones::Drift&#10;Drones::Electromagnetic&#10;Drones::EM Alt&#10;Drones::Engine Room&#10;Drones::Evolving&#10;Drones::Frequencies&#10;Drones::Hum&#10;Drones::Humming A Minor&#10;Drones::Rubber Ball&#10;Drones::SciFi&#10;Drones::Signal&#10;Drones::Space String&#10;Drones::Sunform&#10;Drones::Timbre Wolf&#10;Drones::Void&#10;Drones::Widescreen&#10;Glitch::Burst&#10;Glitch::Camera&#10;Glitch::Diaries&#10;Glitch::DJ&#10;Glitch::Flicker&#10;Glitch::Jitter&#10;Glitch::Loving&#10;Glitch::Random&#10;Glitch::SciFi&#10;Natural::Brook&#10;Natural::Canteen&#10;Natural::Crickets&#10;Natural::Distant Storm&#10;Natural::Electric Birds&#10;Natural::Eternal Night&#10;Natural::Forest 1&#10;Natural::Forest 2&#10;Natural::Forest 3&#10;Natural::Forest 4&#10;Natural::Forest Birds&#10;Natural::Marsh&#10;Natural::Morning&#10;Natural::Rain&#10;Natural::Storm Mix&#10;Natural::Stream&#10;Natural::Wood Rain&#10;Natural::Woods&#10;Noises::Broom&#10;Noises::Crackle Ember&#10;Noises::Crackle Frost&#10;Noises::Crackle Pop&#10;Noises::Crackle Spark&#10;Noises::Crackle Static&#10;Noises::Crowd&#10;Noises::Fan&#10;Noises::Hard Drives&#10;Noises::Machine&#10;Noises::Night Metro&#10;Noises::Pump Jack&#10;Noises::Radio&#10;Noises::Siren&#10;Noises::Traffic&#10;Noises::Train&#10;Noises::Vinyl Noise&#10;Noises::Vinyl Record&#10;Noises::Wind Turbine&#10;Space::Alien Message&#10;Space::Ambient&#10;Space::Atmosphere&#10;Space::Basement&#10;Space::Biennale&#10;Space::Deep Wave&#10;Space::Hangar&#10;Space::Haunted Hall&#10;Space::Machine&#10;Space::Oppressive&#10;Space::SciFi&#10;Space::Stylophone&#10;Space::Texture&#10;Space::Waves"
+                 tooltip="Select Sound" max="104" saveInPreset="0"/>
       <Component type="ScriptPanel" id="Random_btn" x="10" y="10" parentComponent="Main_Route"
                  width="30" height="30" allowCallbacks="Clicks &amp; Hover" tooltip="Randomize in Category"/>
       <Component type="ScriptPanel" id="Tempo_pnl" x="77" y="206" width="250"
                  height="30" parentComponent="Main_Route" allowCallbacks="Clicks, Hover &amp; Dragging"
                  tooltip="Motion Speed Control"/>
       <Component type="ScriptLabel" id="Tempo_lbl" x="10" y="210" width="60" height="20"
-                 text="Motion" editable="0" fontName="Default" parentComponent="Main_Route"
+                 text="1/4D" editable="0" fontName="Default" parentComponent="Main_Route"
                  tooltip="Motion Speed Control" fontSize="14.0" textColour="4292861919"/>
       <Component type="ScriptPanel" id="Drop_pnl" x="0" y="50" width="420" height="250"
                  allowCallbacks="Clicks, Hover &amp; Dragging" parentComponent="Main_Route"

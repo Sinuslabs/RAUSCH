@@ -3,6 +3,7 @@ Console.startBenchmark();
 
 
 Content.makeFrontInterface(336, 427);
+Synth.deferCallbacks(true);
 
 include("Core/include.js");
 include("Styles/include.js");
@@ -35,14 +36,21 @@ inline function onButton1Control(component, value) {
 };
 
 Content.getComponent("Button1").setControlCallback(onButton1Control);
+var heldNotes = 0;
+
 function onNoteOn() {
-	Motion.startAnimation();
-	SpotlightXY.startAnimation();
+	heldNotes++;
+	if (heldNotes == 1) {
+		Motion.startAnimation();
+		SpotlightXY.startAnimation();
+	}
 }
 function onNoteOff() {
-	Motion.stopAnimation();
-	SpotlightXY.stopAnimation();
-
+	heldNotes = Math.max(0, heldNotes - 1);
+	if (heldNotes == 0) {
+		Motion.stopAnimation();
+		SpotlightXY.stopAnimation();
+	}
 }
 function onController()
 {

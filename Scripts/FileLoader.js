@@ -215,6 +215,20 @@ namespace FileLoader {
 	}
 
 	// --- Public API for Random ───────────────────────────────────
+	// Returns a random combobox index (1-based) from all sounds across all categories.
+	inline function getRandomIndexGlobal()
+	{
+		local items = SoundSelector_cmb.get("items").split("\n");
+		if (items.length <= 1) return SoundSelector_cmb.getValue();
+
+		local current = SoundSelector_cmb.getValue();
+		local pick = current;
+		while (pick == current)
+			pick = Math.randInt(1, items.length + 1);
+
+		return pick;
+	}
+
 	// Returns a random combobox index (1-based) within the same category as the current selection.
 	inline function getRandomIndexInCurrentCategory()
 	{
@@ -251,4 +265,9 @@ namespace FileLoader {
 	SoundSelector_cmb.setControlCallback(onSoundSelectorControl);
 	Next_iconBtn.setControlCallback(onNavButton);
 	Prev_iconBtn.setControlCallback(onNavButton);
+
+	// Change this to load a different sound on startup (1-based index)
+	const DEFAULT_SOUND_INDEX = 34;
+	SoundSelector_cmb.setValue(DEFAULT_SOUND_INDEX);
+	SoundSelector_cmb.changed();
 }

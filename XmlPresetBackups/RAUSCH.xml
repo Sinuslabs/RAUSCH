@@ -14,7 +14,6 @@
             <Control type="ScriptSlider" id="Rez_defaultKnb" value="0.5"/>
             <Control type="ScriptButton" id="Next_iconBtn" value="0.0"/>
             <Control type="ScriptButton" id="Prev_iconBtn" value="0.0"/>
-            <Control type="ScriptComboBox" id="SoundSelector_cmb" value="6.0"/>
             <Control type="ScriptButton" id="Button1" value="0.0"/>
             <Control type="ScriptSlider" id="Volyme_RingKnb" value="0.0"/>
           </Content>
@@ -113,8 +112,8 @@
     <Processor Type="AudioLooper" ID="Audio Loop Player1" Bypassed="0" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                SyncMode="1.0" PitchTracking="0.0" LoopEnabled="1.0" RootNote="64.0"
-               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Drones/Drone Loop.flac"
-               min="0" max="1342380" loopStart="0" loopEnd="1342380">
+               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Athmosphere/Generator.flac"
+               min="0" max="1349905" loopStart="0" loopEnd="1349905">
       <ChildProcessors>
         <Processor Type="MidiProcessorChain" ID="Midi Processor" Bypassed="0">
           <ChildProcessors/>
@@ -164,8 +163,8 @@
     <Processor Type="AudioLooper" ID="Audio Loop Player2" Bypassed="0" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                SyncMode="1.0" PitchTracking="0.0" LoopEnabled="1.0" RootNote="34.0"
-               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Drones/Space String.flac"
-               min="0" max="3189829" loopStart="0" loopEnd="3189829">
+               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Athmosphere/Generator.flac"
+               min="0" max="1349905" loopStart="0" loopEnd="1349905">
       <ChildProcessors>
         <Processor Type="MidiProcessorChain" ID="Midi Processor" Bypassed="0">
           <ChildProcessors/>

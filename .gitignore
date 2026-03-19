@@ -22,3 +22,6 @@
 !/Packaging/Linux/**
 !/Packaging/Windows/
 !/Packaging/Windows/**
+/PooledResources/**
+/build/*
+*AudioResources.dat
