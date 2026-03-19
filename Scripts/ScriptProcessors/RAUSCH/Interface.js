@@ -3,6 +3,7 @@ Console.startBenchmark();
 
 
 Content.makeFrontInterface(336, 427);
+Synth.deferCallbacks(true);
 
 include("Core/include.js");
 include("Styles/include.js");
@@ -42,7 +43,6 @@ function onNoteOn() {
 function onNoteOff() {
 	Motion.stopAnimation();
 	SpotlightXY.stopAnimation();
-
 }
 function onController()
 {

@@ -9,23 +9,20 @@
  *   Filter                DSP effect receiving Tempo attribute changes
  *   CONFIG               numSegments, maxSegmentRatio, minSegmentRatio, gap, padding, alpha values
  *   currentValue         Currently selected segment index (0-15)
- *   getSegmentRatio()    Returns width ratio for a segment (wider on left, narrower on right)
- *   getTotalRatio()      Sum of all segment ratios (for proportional sizing)
+ *   segmentRatios[]      Precomputed per-segment width ratios (rebuilt on CONFIG change)
+ *   totalRatio           Precomputed sum of all ratios
+ *   cachedMixNorm        Cached Filter.Mix normalised value (updated in knob callback)
+ *   rebuildSegments()    Recomputes segmentRatios[] and totalRatio
  *   setPaintRoutine      Draws segments with active/inactive states using Theme colors
  *   setMouseCallback     Click/drag to select segment, updates Filter.Tempo
  *   getValue()           Returns current segment index
- *   setValue(val)         Programmatically set segment index
+ *   setValue(val)        Programmatically set segment index
  *   repaint()            Force repaint of the panel
  *
  * @dependencies Theme (colors), Synth.getEffect("Filter")
  * @ui Tempo_pnl
  */
 namespace Motion {
-
-	// Tempo_pnl: Horizontal stepped slider with 16 segments.
-	// Segments shrink left-to-right (configurable max/min width).
-	// No background color. Each segment uses TC.Display.on_display at 12% alpha.
-	// Selection callback returns a value from 0 to 16.
 
 	const var Tempo_pnl = Content.getComponent("Tempo_pnl");
 	const var Tempo_lbl = Content.getComponent("Tempo_lbl");
@@ -46,26 +43,50 @@ namespace Motion {
 	};
 
 	var currentValue = 4;
+	var lastHoveredValue = -1; // guard: avoid redundant label sets on hover
 
 	// Animation state
 	var animationStep = -1;
-	// TODO: Toggle animation on note-on only, for now always active
-	var animationActive = true;
+	var animStartTime = 0.0;  // Engine.getUptime() * 1000 at animation start (ms)
+	var stepDurationMs = 0.0;  // tempo-derived ms per step
+
+	// Cached segment geometry — recomputed once in rebuildSegments(), read every frame.
+	var segmentRatios = [];
+	var totalRatio = 1.0;
+
+	// Cached DSP value — updated in knob callback, not read from DSP every repaint.
+	var cachedMixNorm = 0.0;
+
+	inline function rebuildSegments() {
+		totalRatio = 0.0;
+		var n = CONFIG.numSegments;
+		var maxR = CONFIG.maxSegmentRatio;
+		var rangeR = CONFIG.minSegmentRatio - maxR;
+		var denom = Math.max(1, n - 1);
+
+		for (var i = 0; i < n; i++) {
+			var ratio = maxR + (i / denom) * rangeR;
+			segmentRatios[i] = ratio;
+			totalRatio += ratio;
+		}
+	}
 
 	const var animTimer = Engine.createTimerObject();
 
 	inline function startAnimation() {
-		animationStep = 0;
 		local ms = Engine.getMilliSecondsForTempo(currentValue);
-		local stepMs = ms / CONFIG.numSegments;
-		animTimer.startTimer(Math.max(20, Math.round(stepMs)));
+		stepDurationMs = ms / CONFIG.numSegments;
+		animStartTime = Engine.getUptime() * 1000.0;
+		animationStep = 0;
+		animTimer.startTimer(33); // fixed ~30 fps
 	}
 
 	inline function updateAnimationSpeed() {
 		if (animationStep < 0) return;
 		local ms = Engine.getMilliSecondsForTempo(currentValue);
-		local stepMs = ms / CONFIG.numSegments;
-		animTimer.startTimer(Math.max(20, Math.round(stepMs)));
+		stepDurationMs = ms / CONFIG.numSegments;
+		// preserve current visual phase in the new tempo
+		animStartTime = Engine.getUptime() * 1000.0 - animationStep * stepDurationMs;
 	}
 
 	inline function stopAnimation() {
@@ -75,27 +96,10 @@ namespace Motion {
 	}
 
 	animTimer.setTimerCallback(function () {
-		animationStep++;
-
-		if (animationStep >= CONFIG.numSegments)
-			animationStep = 0;
-
+		var elapsed = Engine.getUptime() * 1000.0 - animStartTime;
+		animationStep = Math.floor(elapsed / stepDurationMs) % CONFIG.numSegments;
 		Tempo_pnl.repaint();
 	});
-
-	inline function getSegmentRatio(index) {
-		local t = index / Math.max(1, CONFIG.numSegments - 1);
-		return CONFIG.maxSegmentRatio + t * (CONFIG.minSegmentRatio - CONFIG.maxSegmentRatio);
-	}
-
-	inline function getTotalRatio() {
-		local total = 0.0;
-
-		for (i = 0; i < CONFIG.numSegments; i++)
-			total += getSegmentRatio(i);
-
-		return total;
-	}
 
 	Tempo_pnl.setPaintRoutine(function (g) {
 		var area = this.getLocalBounds(0);
@@ -104,29 +108,22 @@ namespace Motion {
 
 		var totalGaps = (CONFIG.numSegments - 1) * CONFIG.segmentGap;
 		var availableW = w - CONFIG.padding * 2 - totalGaps;
-		var totalRatio = getTotalRatio();
-
 		var xOffset = CONFIG.padding;
 		var segH = h - CONFIG.padding * 2;
 		var yOffset = CONFIG.padding;
-
 		var colour = Theme.THEME.Colors.Display.on_display;
+		var n = CONFIG.numSegments;
 
-		var mix = Filter.getAttribute(Filter.Mix);
-		var mixNorm = mix / 100.0;
-
-		for (i = 0; i < CONFIG.numSegments; i++) {
-			var segW = (getSegmentRatio(i) / totalRatio) * availableW;
+		for (var i = 0; i < n; i++) {
+			var segW = (segmentRatios[i] / totalRatio) * availableW;
 			var alpha = CONFIG.segmentAlpha;
 
 			if (animationStep >= 0 && i <= currentValue) {
 				var dist = animationStep - i;
-
 				if (dist >= 0 && dist <= CONFIG.pulseFalloff) {
 					var t = 1.0 - (dist / CONFIG.pulseFalloff);
 					alpha = CONFIG.pulseMinAlpha + t * (CONFIG.pulseMaxAlpha - CONFIG.pulseMinAlpha);
-					alpha = alpha * mixNorm;
-					alpha = Math.max(CONFIG.segmentAlpha, alpha);
+					alpha = Math.max(CONFIG.segmentAlpha, alpha * cachedMixNorm);
 				}
 			}
 
@@ -143,11 +140,16 @@ namespace Motion {
 	});
 
 	Tempo_pnl.setMouseCallback(function (event) {
-		if (event.hover)
+		// Guard: only update label when hovered value actually changes
+		if (event.hover && currentValue != lastHoveredValue) {
 			Tempo_lbl.set("text", Engine.getTempoName(currentValue));
+			lastHoveredValue = currentValue;
+		}
 
-		if (!event.hover && !event.drag)
+		if (!event.hover && !event.drag) {
 			Tempo_lbl.set("text", "Motion");
+			lastHoveredValue = -1;
+		}
 
 		if (event.clicked || event.drag) {
 			var area = this.getLocalBounds(0);
@@ -155,17 +157,17 @@ namespace Motion {
 
 			var totalGaps = (CONFIG.numSegments - 1) * CONFIG.segmentGap;
 			var availableW = w - CONFIG.padding * 2 - totalGaps;
-			var totalRatio = getTotalRatio();
 			var xOffset = CONFIG.padding;
 
-			for (i = 0; i < CONFIG.numSegments; i++) {
-				var segW = (getSegmentRatio(i) / totalRatio) * availableW;
+			for (var i = 0; i < CONFIG.numSegments; i++) {
+				var segW = (segmentRatios[i] / totalRatio) * availableW;
 
 				if (event.x >= xOffset && event.x < xOffset + segW) {
 					currentValue = i;
 					Tempo_knb.setValue(i);
 					Tempo_knb.changed();
 					Tempo_lbl.set("text", Engine.getTempoName(currentValue));
+					lastHoveredValue = currentValue;
 					updateAnimationSpeed();
 					this.repaint();
 					this.changed();
@@ -177,15 +179,18 @@ namespace Motion {
 		}
 	});
 
-	// Sync UI when Tempo_knb is changed via DAW automation
-	Tempo_knb.setControlCallback(onTempo);
-	 inline function onTempo(component, value) {
+	// Define onTempo before registering it as callback
+	inline function onTempo(component, value) {
 		currentValue = Math.round(value);
+		cachedMixNorm = Filter.getAttribute(Filter.Mix) / 100.0;
 		Tempo_lbl.set("text", Engine.getTempoName(currentValue));
 		updateAnimationSpeed();
 		Tempo_pnl.repaint();
 		Filter.setAttribute(Filter.Tempo, currentValue);
 	}
+
+	// Sync UI when Tempo_knb is changed via DAW automation
+	Tempo_knb.setControlCallback(onTempo);
 
 	inline function getValue() {
 		return currentValue;
@@ -203,6 +208,9 @@ namespace Motion {
 
 	Theme.registerThemePanel(Tempo_pnl);
 
-	// Start animation on init (always on for now)
-	//startAnimation();
+	// --- Init ---
+	rebuildSegments();
+	cachedMixNorm = Filter.getAttribute(Filter.Mix) / 100.0;
+
+	// startAnimation(); // TODO: enable on note-on only
 }
