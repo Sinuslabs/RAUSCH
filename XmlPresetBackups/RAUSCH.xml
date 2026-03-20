@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Processor Type="SynthChain" ID="RAUSCH" Bypassed="0" Gain="0.6025595664978027"
+<Processor Type="SynthChain" ID="Rausch" Bypassed="0" Gain="0.6025595664978027"
            Balance="0.0" VoiceLimit="64.0" KillFadeTime="20.0" IconColour="0"
            packageName="" BuildVersion="650">
   <ChildProcessors>
@@ -17,7 +17,7 @@
             <Control type="ScriptButton" id="Button1" value="0.0"/>
             <Control type="ScriptSlider" id="Volyme_RingKnb" value="0.0"/>
           </Content>
-          <UIData Source="RAUSCHUIData"/>
+          <UIData Source="RauschUIData"/>
         </Processor>
       </ChildProcessors>
     </Processor>
@@ -112,8 +112,8 @@
     <Processor Type="AudioLooper" ID="Audio Loop Player1" Bypassed="0" Gain="1.0"
                Balance="0.0" VoiceLimit="256.0" KillFadeTime="20.0" IconColour="0"
                SyncMode="1.0" PitchTracking="0.0" LoopEnabled="1.0" RootNote="64.0"
-               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Drones/Dew.flac"
-               min="0" max="938967" loopStart="0" loopEnd="938967">
+               SampleStartMod="0.0" Reversed="0.0" FileName="{PROJECT_FOLDER}Athmosphere/Granite Spitting.flac"
+               min="0" max="532763" loopStart="0" loopEnd="532763">
       <ChildProcessors>
         <Processor Type="MidiProcessorChain" ID="Midi Processor" Bypassed="0">
           <ChildProcessors/>

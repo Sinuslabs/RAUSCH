@@ -1,6 +1,6 @@
 /**
  * @file Core/Primitives.js
- * @description Design token definitions for the RAUSCH plugin.
+ * @description Design token definitions for the Rausch plugin.
  *   Contains color palettes (10 shades each), spacing scales, border sizes,
  *   and border radius values used by ThemeData to compose themes.
  *

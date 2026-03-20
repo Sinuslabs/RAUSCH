@@ -1,6 +1,6 @@
 /**
  * @file Core/Icons.js
- * @description SVG icon path registry for the RAUSCH plugin.
+ * @description SVG icon path registry for the Rausch plugin.
  *   Stores encoded SVG path data and creates HISE Path objects accessible via Icons.get[name].
  *   All icons are loaded from Base64-encoded SVG data strings at init time.
  *
