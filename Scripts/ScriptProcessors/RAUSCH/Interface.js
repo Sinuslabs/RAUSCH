@@ -29,8 +29,6 @@ DotVideo.setGridSize(50, 50);
 
 inline function onButton1Control(component, value) {
 	if (value) {
-
-
 		Engine.openWebsite('https://sinuslabs.io/');
 	}
 };

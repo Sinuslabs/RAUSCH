@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <ProjectSettings>
-  <Name value="RAUSCH"/>
+  <Name value="Rausch"/>
   <Version value="1.0.0"/>
   <Description value=""/>
   <BundleIdentifier value="com.Sinuslabs.rausch"/>
   <PluginCode value="Raus"/>
-  <EmbedAudioFiles value="0"/>
+  <EmbedAudioFiles value="1"/>
   <EmbedImageFiles value="1"/>
   <SupportFullDynamicsHLAC value="No"/>
   <AdditionalDspLibraries value=""/>

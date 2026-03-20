@@ -22,6 +22,9 @@
  * @ui SoundSelector_cmb, Next_iconBtn, Prev_iconBtn
  */
 namespace FileLoader {
+	
+	Engine.loadAudioFilesIntoPool();
+
 
 	// --- References ---
 	const var AudioLoopPlayer1 = Synth.getAudioSampleProcessor("Audio Loop Player1");
@@ -38,29 +41,45 @@ namespace FileLoader {
 	// Flat lookup: maps "Category::DisplayName" -> "{PROJECT_FOLDER}..." path
 	reg fileMap = {};
 
-	// --- Build categorised menu items & file map from audio pool ---
+	// --- Build categorised menu items & file map from AudioFiles folder ---
 	inline function buildMenuItems()
 	{
-		local items = [];
-		local poolFiles = Engine.loadAudioFilesIntoPool();
+		local audioRoot = FileSystem.getFolder(FileSystem.AudioFiles);
+		local allEntries = FileSystem.findFiles(audioRoot, "*", false);
 
-		for (f in poolFiles)
+		// Collect category folder names then sort alphabetically
+		local categoryNames = [];
+		for (i = 0; i < allEntries.length; i++)
 		{
-			// Strip {PROJECT_FOLDER} prefix to get "Category/filename.ext"
-			local relative = f.replace("{PROJECT_FOLDER}", "");
-			local slashIdx = relative.indexOf("/");
-			if (slashIdx < 0) continue;
+			if (allEntries[i].isDirectory())
+				categoryNames.push(allEntries[i].toString(3));
+		}
+		categoryNames.sort();
 
-			local category = relative.substring(0, slashIdx);
-			local filename = relative.substring(slashIdx + 1, relative.length);
+		local items = [];
 
-			// Strip extension for display name
-			local dotIdx = filename.lastIndexOf(".");
-			local displayName = dotIdx >= 0 ? filename.substring(0, dotIdx) : filename;
+		for (c = 0; c < categoryNames.length; c++)
+		{
+			local catName = categoryNames[c];
+			local catFolder = audioRoot.getChildFile(catName);
+			local catEntries = FileSystem.findFiles(catFolder, "*", false);
 
-			local key = category + "::" + displayName;
-			fileMap[key] = f;
-			items.push(key);
+			for (i = 0; i < catEntries.length; i++)
+			{
+				local f = catEntries[i];
+				if (!f.isFile()) continue;
+
+				local fname = f.toString(3);
+				local isAudio = fname.indexOf(".wav") >= 0 ||
+				                fname.indexOf(".flac") >= 0 ||
+				                fname.indexOf(".mp3") >= 0;
+				if (!isAudio) continue;
+
+				local displayName = f.toString(f.NoExtension);
+				local key = catName + "::" + displayName;
+				fileMap[key] = f.toString(0);
+				items.push(key);
+			}
 		}
 
 		return items.join("\n");
@@ -273,26 +292,15 @@ namespace FileLoader {
 	Next_iconBtn.setControlCallback(onNavButton);
 	Prev_iconBtn.setControlCallback(onNavButton);
 
-	// Load default sound directly into Player1 at startup (changed() is blocked during onInit)
-	const DEFAULT_SOUND_INDEX = 34;
-	if (totalItems > 1)
+	// Load first sound into Player1 at startup
+	if (totalItems >= 1)
 	{
-		var defaultItems = SoundSelector_cmb.get("items").split("\n");
-		var defaultKey = defaultItems[DEFAULT_SOUND_INDEX - 1];
-		Console.print("FileLoader: loading default key=" + defaultKey);
+		var defaultKey = SoundSelector_cmb.get("items").split("\n")[0];
 		if (isDefined(fileMap[defaultKey]))
 		{
 			AudioLoopPlayer1.setFile(fileMap[defaultKey]);
-			SoundSelector_cmb.setValue(DEFAULT_SOUND_INDEX);
-			Console.print("FileLoader: default sound loaded into Player1");
+			SoundSelector_cmb.setValue(1);
+			Console.print("FileLoader: default sound loaded = " + defaultKey);
 		}
-		else
-		{
-			Console.print("FileLoader: default key not found in fileMap");
-		}
-	}
-	else
-	{
-		Console.print("FileLoader: pool not ready at init, skipping default selection");
 	}
 }

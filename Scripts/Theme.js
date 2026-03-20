@@ -1,6 +1,6 @@
 /**
  * @file Theme.js
- * @description Global theme manager for the RAUSCH plugin (root-level version).
+ * @description Global theme manager for the Rausch plugin (root-level version).
  *   Loads custom fonts, holds the active THEME object (light/dark/super_light),
  *   and provides repaintAll() to refresh all registered panels and knobs on theme change.
  *

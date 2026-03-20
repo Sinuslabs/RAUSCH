@@ -1,7 +1,7 @@
-# SPEC.md - RAUSCH (Textural Noise Generator)
+# SPEC.md - Rausch (Textural Noise Generator)
 
 ## 1. Project Concept
-**RAUSCH** is a boutique textural noise generator designed for lo-fi, techno, and ambient production. It moves beyond standard white/pink noise by using processed organic, cosmic, and industrial recordings as a sound source.
+**Rausch** is a boutique textural noise generator designed for lo-fi, techno, and ambient production. It moves beyond standard white/pink noise by using processed organic, cosmic, and industrial recordings as a sound source.
 
 ## 2. Target Audience
 - **US/EU Boutique Market:** High-end lo-fi producers, techno artists, and sound designers.

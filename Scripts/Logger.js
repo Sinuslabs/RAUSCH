@@ -88,7 +88,7 @@ namespace Logger {
 
             // title
             g.setColour(0xFFAAAAAA);
-            g.drawText("RAUSCH  DEBUG LOG", [8, 0, 180, 30]);
+            g.drawText("Rausch  DEBUG LOG", [8, 0, 180, 30]);
 
             // COPY button
             g.setColour(0xFF2255CC);
